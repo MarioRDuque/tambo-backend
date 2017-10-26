@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@PropertySource(value="file:/opt/aplicaciones/limatambo/limatambo.properties")
+//@PropertySource(value="file:/opt/aplicaciones/limatambo/limatambo.properties")
 @EnableJpaRepositories(basePackages = {"pe.limatambo.dao"})
 @EntityScan(basePackages = {"pe.limatambo"})
 @EnableTransactionManagement
