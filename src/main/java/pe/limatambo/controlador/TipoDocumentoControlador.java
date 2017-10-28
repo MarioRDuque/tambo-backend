@@ -5,7 +5,6 @@
  */
 package pe.limatambo.controlador;
 
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -18,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pe.limatambo.entidades.Unidadmedida;
+import pe.limatambo.entidades.Tipodocumento;
 import pe.limatambo.excepcion.GeneralException;
-import pe.limatambo.servicio.UnidadMedidaServicio;
+import pe.limatambo.servicio.TipoDocumentoServicio;
 import pe.limatambo.util.BusquedaPaginada;
 import pe.limatambo.util.Mensaje;
 import pe.limatambo.util.Respuesta;
@@ -29,12 +28,12 @@ import pe.limatambo.util.Respuesta;
  * @author dev-out-03
  */
 @RestController
-@RequestMapping("/unidad")
-public class UnidadMedidaControlador {
+@RequestMapping("/tipodocumento")
+public class TipoDocumentoControlador {
     
     private final Logger loggerControlador = LoggerFactory.getLogger(getClass());
     @Autowired
-    private UnidadMedidaServicio unidadMedidaServicio;
+    private TipoDocumentoServicio tipoDocumentoServicio;
     
     @RequestMapping(value = "pagina/{pagina}/cantidadPorPagina/{cantidadPorPagina}", method = RequestMethod.POST)
     public ResponseEntity<BusquedaPaginada> busquedaPaginada(HttpServletRequest request, @PathVariable("pagina") Long pagina, 
@@ -44,11 +43,11 @@ public class UnidadMedidaControlador {
             String abr;
             BusquedaPaginada busquedaPaginada = new BusquedaPaginada();
             busquedaPaginada.setBuscar(parametros);
-            Unidadmedida entidadBuscar = new Unidadmedida();
+            Tipodocumento entidadBuscar = new Tipodocumento();
             abr = busquedaPaginada.obtenerFiltroComoString("abr");
             busquedaPaginada.setPaginaActual(pagina);
             busquedaPaginada.setCantidadPorPagina(cantidadPorPagina);
-            busquedaPaginada = unidadMedidaServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, abr);
+            busquedaPaginada = tipoDocumentoServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, abr);
             return new ResponseEntity<>(busquedaPaginada, HttpStatus.OK);
         } catch (Exception e) {
             loggerControlador.error(e.getMessage());
@@ -56,31 +55,12 @@ public class UnidadMedidaControlador {
         }
     }
     
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity listar(HttpServletRequest request) throws GeneralException{
-        Respuesta resp = new Respuesta();
-        try {
-            List<Unidadmedida> unidades = unidadMedidaServicio.listar();
-            if (!unidades.isEmpty()) {
-                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
-                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
-                resp.setExtraInfo(unidades);
-            }else{
-                throw new GeneralException(Mensaje.ERROR_CRUD_LISTAR, "No hay datos", loggerControlador);
-            }
-            return new ResponseEntity<>(resp, HttpStatus.OK);
-        } catch (Exception e) {
-            loggerControlador.error(e.getMessage());
-            throw e;
-        }
-    }
-    
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity crear(HttpServletRequest request, @RequestBody Unidadmedida entidad) throws GeneralException {
+    public ResponseEntity crear(HttpServletRequest request, @RequestBody Tipodocumento entidad) throws GeneralException {
         Respuesta resp = new Respuesta();
         if(entidad != null){
             try {
-                Unidadmedida guardado = unidadMedidaServicio.insertar(entidad);
+                Tipodocumento guardado = tipoDocumentoServicio.insertar(entidad);
                 if (guardado != null ) {
                     resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
                     resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);

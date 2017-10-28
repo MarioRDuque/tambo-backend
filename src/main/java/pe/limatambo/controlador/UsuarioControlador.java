@@ -5,7 +5,6 @@
  */
 package pe.limatambo.controlador;
 
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -18,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pe.limatambo.entidades.Unidadmedida;
+import pe.limatambo.entidades.Usuario;
 import pe.limatambo.excepcion.GeneralException;
-import pe.limatambo.servicio.UnidadMedidaServicio;
+import pe.limatambo.servicio.UsuarioServicio;
 import pe.limatambo.util.BusquedaPaginada;
 import pe.limatambo.util.Mensaje;
 import pe.limatambo.util.Respuesta;
@@ -29,26 +28,26 @@ import pe.limatambo.util.Respuesta;
  * @author dev-out-03
  */
 @RestController
-@RequestMapping("/unidad")
-public class UnidadMedidaControlador {
+@RequestMapping("/usuario")
+public class UsuarioControlador {
     
     private final Logger loggerControlador = LoggerFactory.getLogger(getClass());
     @Autowired
-    private UnidadMedidaServicio unidadMedidaServicio;
+    private UsuarioServicio usuarioServicio;
     
     @RequestMapping(value = "pagina/{pagina}/cantidadPorPagina/{cantidadPorPagina}", method = RequestMethod.POST)
     public ResponseEntity<BusquedaPaginada> busquedaPaginada(HttpServletRequest request, @PathVariable("pagina") Long pagina, 
                                                              @PathVariable("cantidadPorPagina") Long cantidadPorPagina, 
                                                              @RequestBody Map<String, Object> parametros) throws GeneralException{
         try {
-            String abr;
+            String dni;
             BusquedaPaginada busquedaPaginada = new BusquedaPaginada();
             busquedaPaginada.setBuscar(parametros);
-            Unidadmedida entidadBuscar = new Unidadmedida();
-            abr = busquedaPaginada.obtenerFiltroComoString("abr");
+            Usuario entidadBuscar = new Usuario();
+            dni = busquedaPaginada.obtenerFiltroComoString("dni");
             busquedaPaginada.setPaginaActual(pagina);
             busquedaPaginada.setCantidadPorPagina(cantidadPorPagina);
-            busquedaPaginada = unidadMedidaServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, abr);
+            busquedaPaginada = usuarioServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, dni);
             return new ResponseEntity<>(busquedaPaginada, HttpStatus.OK);
         } catch (Exception e) {
             loggerControlador.error(e.getMessage());
@@ -56,31 +55,12 @@ public class UnidadMedidaControlador {
         }
     }
     
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity listar(HttpServletRequest request) throws GeneralException{
-        Respuesta resp = new Respuesta();
-        try {
-            List<Unidadmedida> unidades = unidadMedidaServicio.listar();
-            if (!unidades.isEmpty()) {
-                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
-                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
-                resp.setExtraInfo(unidades);
-            }else{
-                throw new GeneralException(Mensaje.ERROR_CRUD_LISTAR, "No hay datos", loggerControlador);
-            }
-            return new ResponseEntity<>(resp, HttpStatus.OK);
-        } catch (Exception e) {
-            loggerControlador.error(e.getMessage());
-            throw e;
-        }
-    }
-    
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity crear(HttpServletRequest request, @RequestBody Unidadmedida entidad) throws GeneralException {
+    public ResponseEntity crear(HttpServletRequest request, @RequestBody Usuario entidad) throws GeneralException {
         Respuesta resp = new Respuesta();
         if(entidad != null){
             try {
-                Unidadmedida guardado = unidadMedidaServicio.insertar(entidad);
+                Usuario guardado = usuarioServicio.insertar(entidad);
                 if (guardado != null ) {
                     resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
                     resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);

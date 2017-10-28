@@ -6,15 +6,19 @@
 package pe.limatambo.servicio.impl;
 
 import java.util.List;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pe.limatambo.dao.GenericoDao;
+import pe.limatambo.entidades.Tipodocumento;
 import pe.limatambo.entidades.Unidadmedida;
 import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.servicio.UnidadMedidaServicio;
+import pe.limatambo.util.BusquedaPaginada;
 import pe.limatambo.util.Criterio;
 /**
  *
@@ -43,6 +47,22 @@ public class UnidadMedidaServicioImp extends GenericoServicioImpl<Unidadmedida, 
     @Override
     public Unidadmedida insertar(Unidadmedida entidad) throws GeneralException{
         return unidadMedidaDao.insertar(entidad);
+    }
+    
+    @Override
+    public BusquedaPaginada busquedaPaginada(Unidadmedida entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc) {
+        Criterio filtro;
+        filtro = Criterio.forClass(Unidadmedida.class);
+        if (numdoc!= null && !numdoc.equals("")) {
+            filtro.add(Restrictions.eq("abreviatura", numdoc));
+        }
+        busquedaPaginada.setTotalRegistros(unidadMedidaDao.cantidadPorCriteria(filtro, "id"));
+        busquedaPaginada.calcularCantidadDePaginas();
+        busquedaPaginada.validarPaginaActual();
+        filtro.calcularDatosParaPaginacion(busquedaPaginada);
+        filtro.addOrder(Order.desc("id"));
+        busquedaPaginada.setRegistros(unidadMedidaDao.buscarPorCriteriaSinProyecciones(filtro));
+        return busquedaPaginada;
     }
     
 }

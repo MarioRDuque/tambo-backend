@@ -28,7 +28,6 @@ import pe.limatambo.util.LimatamboUtil;
 import pe.limatambo.util.Mensaje;
 import pe.limatambo.util.Respuesta;
 /**
- *
  * @author dev-out-03
  */
 @RestController

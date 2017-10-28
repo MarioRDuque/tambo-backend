@@ -8,12 +8,14 @@ package pe.limatambo.servicio;
 import java.util.List;
 import pe.limatambo.entidades.Unidadmedida;
 import pe.limatambo.excepcion.GeneralException;
+import pe.limatambo.util.BusquedaPaginada;
 
 /**
  *
  * @author dev-out-03
  */
 public interface UnidadMedidaServicio extends GenericoServicio<Unidadmedida, Integer>{
+    public BusquedaPaginada busquedaPaginada(Unidadmedida entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc);
     public List<Unidadmedida> listar();
     public Unidadmedida insertar(Unidadmedida entidad) throws GeneralException;
 }
