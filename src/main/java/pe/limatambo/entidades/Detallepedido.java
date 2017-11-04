@@ -44,9 +44,10 @@ public class Detallepedido implements Serializable {
     @JoinColumn(name = "idproducto", referencedColumnName = "id")
     @ManyToOne
     private Producto idproducto;
-    @JoinColumn(name = "unidadmedida", referencedColumnName = "id")
-    @ManyToOne
-    private Unidadmedida unidadmedida;
+    @Column(name = "estado")
+    private Boolean estado;
+    @Column(name = "idpedido", nullable = false)
+    private Integer idpedido;
 
     public Detallepedido() {
     }

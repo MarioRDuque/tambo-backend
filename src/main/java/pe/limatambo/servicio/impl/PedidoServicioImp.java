@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pe.limatambo.dao.GenericoDao;
 import pe.limatambo.dto.PedidoDTO;
+import pe.limatambo.entidades.Detallepedido;
 import pe.limatambo.entidades.Pedido;
 import pe.limatambo.entidades.Usuario;
 import pe.limatambo.excepcion.GeneralException;
@@ -38,6 +39,8 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
     
     @Autowired
     private GenericoDao<Pedido, Integer> pedidoDao;
+    @Autowired
+    private GenericoDao<Detallepedido, Integer> pedidoDetalleDao;
 
     public PedidoServicioImp(GenericoDao<Pedido, Integer> genericoHibernate) {
         super(genericoHibernate);
@@ -48,13 +51,10 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         if(pedido != null){
             pedido.setEstado(Boolean.TRUE);
             pedido = pedidoDao.insertar(pedido);
-//            for (EventoSubLineasDeNegocio eventoSublinea : eventoSublineas) {
-//                eventoSublinea.setNIdeven(pedido.getNIdeven());
-//                eventoSubLineasDeNegocioDao.insertar(eventoSublinea);
-//            }
-//            if(pedido.getNIdeven()>0){
-//                historicoDeCambiosEventosServicio.guardarHistorico(pedido, pedido.getUserId());
-//            }
+            for (Detallepedido detalle : pedido.getDetallePedidoList()) {
+                detalle.setIdpedido(pedido.getId());
+                pedidoDetalleDao.insertar(detalle);
+            }
         }else{
             throw new GeneralException("Evento nulo", Mensaje.CAMPO_OBLIGATORIO_VACIO, loggerServicio);
         }

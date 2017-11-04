@@ -64,7 +64,7 @@ public class TipoDocumentoServicioImp extends GenericoServicioImpl<Tipodocumento
         filtro.add(Restrictions.eq("abreviatura", entidad.getAbreviatura()));
         Tipodocumento u = tipoDocumentoDao.obtenerPorCriteriaSinProyecciones(filtro);
         if (u!=null) {
-            throw new GeneralException("Guardar retorno nulo", "Ya existe un usuario con igual nombre.", loggerServicio);
+            throw new GeneralException("Guardar retorno nulo", "Ya existe un documento con igual nombre.", loggerServicio);
         }
         entidad.setEstado(Boolean.TRUE);
         return tipoDocumentoDao.insertar(entidad);
