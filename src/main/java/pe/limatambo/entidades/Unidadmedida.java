@@ -33,7 +33,7 @@ public class Unidadmedida implements Serializable {
     @Size(max = 20)
     @Column(name = "descripcion")
     private String descripcion;
-    @Size(max = 2)
+    @Size(max = 10)
     @Column(name = "abreviatura")
     private String abreviatura;
 
