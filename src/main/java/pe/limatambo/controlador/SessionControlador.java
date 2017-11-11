@@ -11,6 +11,7 @@ import pe.limatambo.dto.LoginDTO;
 import pe.limatambo.entidades.Usuario;
 import pe.limatambo.dto.SessionItemDTO;
 import pe.limatambo.excepcion.GeneralException;
+import pe.limatambo.servicio.MenuServicio;
 import pe.limatambo.util.SessionResponse;
 import pe.limatambo.util.Mensaje;
 import pe.limatambo.util.Respuesta.EstadoOperacionEnum;
@@ -26,6 +27,8 @@ public class SessionControlador {
     
     @Autowired
     private UsuarioDao usuarioDao;
+    @Autowired
+    private MenuServicio menuServicio;
 
     @RequestMapping(value = "/session", method = RequestMethod.POST)
     public ResponseEntity newSession(@RequestBody LoginDTO login, HttpServletRequest request) throws GeneralException {
@@ -36,6 +39,7 @@ public class SessionControlador {
             sessionItem.setToken("xxx.xxx.xxx");
             sessionItem.setUsuarioId(usuario.getUserId());
             sessionItem.setNombre(usuario.getNombre());
+            sessionItem.setMenus(menuServicio.listarPorTipoDeUsuario(usuario.getTipousuario().getId()));
             resp.setEstadoOperacion(EstadoOperacionEnum.EXITO.getValor());
             resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
             resp.setItem(sessionItem);

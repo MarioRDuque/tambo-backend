@@ -40,14 +40,15 @@ public class UsuarioControlador {
                                                              @PathVariable("cantidadPorPagina") Long cantidadPorPagina, 
                                                              @RequestBody Map<String, Object> parametros) throws GeneralException{
         try {
-            String dni;
+            String dni,nomusu;
             BusquedaPaginada busquedaPaginada = new BusquedaPaginada();
             busquedaPaginada.setBuscar(parametros);
             Usuario entidadBuscar = new Usuario();
             dni = busquedaPaginada.obtenerFiltroComoString("dni");
+            nomusu = busquedaPaginada.obtenerFiltroComoString("nomusu");
             busquedaPaginada.setPaginaActual(pagina);
             busquedaPaginada.setCantidadPorPagina(cantidadPorPagina);
-            busquedaPaginada = usuarioServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, dni);
+            busquedaPaginada = usuarioServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, dni, nomusu);
             return new ResponseEntity<>(busquedaPaginada, HttpStatus.OK);
         } catch (Exception e) {
             loggerControlador.error(e.getMessage());

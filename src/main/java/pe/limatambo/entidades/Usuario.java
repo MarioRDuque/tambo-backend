@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -52,6 +54,9 @@ public class Usuario implements Serializable {
     @Size(max = 15)
     @Column(name = "celular")
     private String celular;
+    @Size(max = 80)
+    @Column(name = "correo")
+    private String correo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 90)
@@ -68,6 +73,9 @@ public class Usuario implements Serializable {
     private boolean cambiarclave;
     @Column(name = "estado")
     private Boolean estado;
+    @JoinColumn(name = "tipousuario", referencedColumnName = "id")
+    @ManyToOne
+    private Tipousuario tipousuario;
 
     public Usuario() {
     }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import pe.limatambo.security.TokenUtil;
+import pe.limatambo.servicio.MenuServicio;
 
 @Configuration
 @EnableWebSecurity
@@ -17,6 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private TokenUtil tokenUtil;
+    @Autowired
+    private MenuServicio menuServicio;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -37,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Custom Token based authentication based on the header previously given to the client
                 .addFilterBefore(new VerifyTokenFilter(tokenUtil), UsernamePasswordAuthenticationFilter.class)
                 // custom JSON based authentication by POST of {"username":"<name>","password":"<password>"} which sets the token header upon authentication
-                .addFilterBefore(new GenerateTokenForUserFilter("/session", authenticationManager(), tokenUtil), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new GenerateTokenForUserFilter("/session", authenticationManager(), tokenUtil, menuServicio), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .anyRequest().authenticated();
     }

@@ -13,9 +13,11 @@ import org.apache.commons.io.IOUtils;
 import org.json.*;
 
 import com.fasterxml.jackson.databind.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import pe.limatambo.dto.SessionItemDTO;
 import pe.limatambo.security.TokenUser;
 import pe.limatambo.security.TokenUtil;
+import pe.limatambo.servicio.MenuServicio;
 import pe.limatambo.util.Respuesta.EstadoOperacionEnum;
 import pe.limatambo.util.SessionResponse;
 
@@ -24,11 +26,13 @@ import pe.limatambo.util.SessionResponse;
 public class GenerateTokenForUserFilter extends AbstractAuthenticationProcessingFilter {
 
     private TokenUtil tokenUtil;
+    private MenuServicio menuServicio;
 
-    protected GenerateTokenForUserFilter(String urlMapping, AuthenticationManager authenticationManager, TokenUtil tokenUtil) {
+    protected GenerateTokenForUserFilter(String urlMapping, AuthenticationManager authenticationManager, TokenUtil tokenUtil,MenuServicio menuServicio) {
         super(new AntPathRequestMatcher(urlMapping));
         setAuthenticationManager(authenticationManager);
         this.tokenUtil = tokenUtil;
+        this.menuServicio = menuServicio;
     }
 
     @Override
@@ -57,6 +61,7 @@ public class GenerateTokenForUserFilter extends AbstractAuthenticationProcessing
         respItem.setNombre(tokenUser.getUsuario().getNombre());
         respItem.setUsuarioId(tokenUser.getUsuario().getUserId());
         respItem.setToken(tokenString);
+        respItem.setMenus(menuServicio.listarPorTipoDeUsuario(tokenUser.getUsuario().getTipousuario().getId()));
         resp.setEstadoOperacion(EstadoOperacionEnum.EXITO.getValor());
         resp.setOperacionMensaje("Login Success");
         resp.setItem(respItem);

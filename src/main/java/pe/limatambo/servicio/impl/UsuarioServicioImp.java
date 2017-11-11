@@ -37,10 +37,13 @@ public class UsuarioServicioImp extends GenericoServicioImpl<Usuario, Integer> i
     }
 
     @Override
-    public BusquedaPaginada busquedaPaginada(Usuario entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc) {
+    public BusquedaPaginada busquedaPaginada(Usuario entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc, String nomusu) {
         Criterio filtro;
         filtro = Criterio.forClass(Usuario.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
+        if (numdoc!= null && !numdoc.equals("")) {
+            filtro.add(Restrictions.eq("dni", numdoc));
+        }
         if (numdoc!= null && !numdoc.equals("")) {
             filtro.add(Restrictions.eq("dni", numdoc));
         }
