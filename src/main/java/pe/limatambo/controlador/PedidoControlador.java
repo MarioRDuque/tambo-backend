@@ -49,6 +49,7 @@ public class PedidoControlador {
         Respuesta resp = new Respuesta();
         if(entidad != null){
             try {
+                loggerControlador.info("se va a guardar");
                 Pedido pedidoGuardado =  pedidoServicio.guardar(entidad);
                 if (pedidoGuardado != null ) {
                     loggerControlador.info("insertado: "+pedidoGuardado.getId());
