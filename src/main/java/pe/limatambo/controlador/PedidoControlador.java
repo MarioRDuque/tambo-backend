@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pe.limatambo.dao.GenericoDao;
-import pe.limatambo.entidades.Detallepedido;
 import pe.limatambo.entidades.Pedido;
 import pe.limatambo.entidades.Usuario;
 import pe.limatambo.excepcion.GeneralException;
@@ -41,22 +39,14 @@ public class PedidoControlador {
     private PedidoServicio pedidoServicio;
     @Autowired
     private TokenUtil tokenUtil;
-    @Autowired
-    private GenericoDao<Detallepedido, Integer> detallePedidoDao;
     
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity crear(HttpServletRequest request, @RequestBody Pedido entidad) throws GeneralException {
         Respuesta resp = new Respuesta();
         if(entidad != null){
             try {
-                loggerControlador.info("se va a guardar");
                 Pedido pedidoGuardado =  pedidoServicio.guardar(entidad);
                 if (pedidoGuardado != null ) {
-                    loggerControlador.info("insertado: "+pedidoGuardado.getId());
-                    for (Detallepedido detalle : pedidoGuardado.getDetallePedidoList()) {
-                        detalle.setIdpedido(pedidoGuardado.getId());
-                        detallePedidoDao.insertar(detalle);
-                    }
                     resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
                     resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
                     resp.setExtraInfo(pedidoGuardado.getId());

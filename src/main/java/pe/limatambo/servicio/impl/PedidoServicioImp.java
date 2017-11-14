@@ -51,7 +51,10 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         if(pedido != null){
             pedido.setEstado(Boolean.TRUE);
             pedido = pedidoDao.insertar(pedido);
-            loggerServicio.info(pedido.getId()+"");
+            for (Detallepedido detalle : pedido.getDetallePedidoList()) {
+                detalle.setIdpedido(pedido.getId());
+                pedidoDetalleDao.insertar(detalle);
+            }
         }else{
             throw new GeneralException("Evento nulo", Mensaje.CAMPO_OBLIGATORIO_VACIO, loggerServicio);
         }
