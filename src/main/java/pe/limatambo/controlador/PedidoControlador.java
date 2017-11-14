@@ -51,6 +51,7 @@ public class PedidoControlador {
             try {
                 Pedido pedidoGuardado =  pedidoServicio.guardar(entidad);
                 if (pedidoGuardado != null ) {
+                    loggerControlador.info("insertado: "+pedidoGuardado.getId());
                     for (Detallepedido detalle : pedidoGuardado.getDetallePedidoList()) {
                         detalle.setIdpedido(pedidoGuardado.getId());
                         detallePedidoDao.insertar(detalle);
