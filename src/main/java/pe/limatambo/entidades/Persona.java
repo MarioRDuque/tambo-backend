@@ -52,8 +52,13 @@ public class Persona implements Serializable {
     @Size(max = 100)
     @Column(name = "direccion")
     private String direccion;
+    @Size(max = 200)
+    @Column(name = "referencia")
+    private String referencia;
     @Column(name = "estado")
     private Boolean estado;
+    @Column(name = "coordenadas")
+    private Double coordenadas;
     @JoinColumn(name = "idpais", referencedColumnName = "id")
     @ManyToOne
     private Pais idpais;

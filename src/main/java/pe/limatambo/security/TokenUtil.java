@@ -14,8 +14,7 @@ import pe.limatambo.entidades.Usuario;
 @Service
 public class TokenUtil {
 
-    //private static final long VALIDITY_TIME_MS = 10 * 24 * 60 * 60 * 1000;// 10 days Validity
-    private static final long VALIDITY_TIME_MS = 2 * 60 * 60 * 1000; // 2 hours  validity
+    private static final long VALIDITY_TIME_MS = 10 * 24 * 60 * 60 * 1000;// 10 days Validity
     private static final String AUTH_HEADER_NAME = "Authorization";
     @Autowired 
     private UsuarioDao usuarioDao;

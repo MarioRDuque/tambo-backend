@@ -13,7 +13,6 @@ import org.apache.commons.io.IOUtils;
 import org.json.*;
 
 import com.fasterxml.jackson.databind.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import pe.limatambo.dto.SessionItemDTO;
 import pe.limatambo.security.TokenUser;
 import pe.limatambo.security.TokenUtil;
