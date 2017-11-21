@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pe.limatambo.dao.GenericoDao;
 import pe.limatambo.entidades.Cliente;
+import pe.limatambo.entidades.Tipodocumento;
 import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.servicio.ClienteServicio;
 import pe.limatambo.util.BusquedaPaginada;
@@ -37,7 +38,7 @@ public class ClienteControlador {
     @Autowired
     private ClienteServicio clienteServicio;
     @Autowired
-    private GenericoDao<Cliente, Integer> clienteDao;
+    private GenericoDao<Tipodocumento, Integer> tipodocDao;
     
     @RequestMapping(value = "pagina/{pagina}/cantidadPorPagina/{cantidadPorPagina}", method = RequestMethod.POST)
     public ResponseEntity<BusquedaPaginada> busquedaPaginada(HttpServletRequest request, @PathVariable("pagina") Long pagina, 
@@ -84,11 +85,13 @@ public class ClienteControlador {
         Respuesta resp = new Respuesta();
         if(entidad != null){
             try {
-                Cliente pedidoGuardado = clienteServicio.insertar(entidad);
-                if (pedidoGuardado != null ) {
+                Cliente guardado = clienteServicio.insertar(entidad);
+                if (guardado != null ) {
+                    Tipodocumento documento = tipodocDao.obtener(Tipodocumento.class, guardado.getIdpersona().getIdtipodocumento().getId());
+                    guardado.getIdpersona().setIdtipodocumento(documento);
                     resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
                     resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
-                    resp.setExtraInfo(pedidoGuardado);
+                    resp.setExtraInfo(guardado);
                 }else{
                     throw new GeneralException(Mensaje.ERROR_CRUD_GUARDAR, "Guardar retorno nulo", loggerControlador);
                 }
@@ -107,7 +110,7 @@ public class ClienteControlador {
         Respuesta resp = new Respuesta();
         if(entidad != null){
             try {
-                Cliente pedidoGuardado = clienteDao.actualizar(entidad);
+                Cliente pedidoGuardado = clienteServicio.actualizar(entidad);
                 if (pedidoGuardado != null ) {
                     resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
                     resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);

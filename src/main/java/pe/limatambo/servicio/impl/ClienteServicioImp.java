@@ -5,6 +5,7 @@
  */
 package pe.limatambo.servicio.impl;
 
+import java.util.Objects;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
@@ -78,6 +79,28 @@ public class ClienteServicioImp extends GenericoServicioImpl<Cliente, Integer> i
         entidad.setEstado(Boolean.TRUE);
         entidad.setIdpersona(persona);
         return clienteDao.insertar(entidad);
+    }
+    
+    @Override
+    public Cliente actualizar(Cliente entidad) throws GeneralException{
+        if (entidad.getIdpersona()==null) {
+            throw new GeneralException(Mensaje.NO_EXISTEN_DATOS, "Guardar retorno nulo", loggerServicio);
+        }
+        Criterio filtro;
+        filtro = Criterio.forClass(Persona.class);
+        filtro.add(Restrictions.eq("estado", Boolean.TRUE));
+        filtro.add(Restrictions.ne("id", entidad.getIdpersona().getId()));
+        filtro.add(Restrictions.eq("numdocumento", entidad.getIdpersona().getNumdocumento()));
+        Persona persona = personaDao.obtenerPorCriteriaSinProyecciones(filtro);
+        if (persona!=null) {
+            throw new GeneralException("Guardar retorno nulo", "Ya existe persona.", loggerServicio);
+        }
+        entidad.getIdpersona().setNombrecompleto(entidad.getIdpersona().getNombre() + " " + entidad.getIdpersona().getApellidos());
+        entidad.getIdpersona().setEstado(Boolean.TRUE);
+        personaDao.actualizar(entidad.getIdpersona());
+        entidad.setEstado(Boolean.TRUE);
+        entidad.setIdpersona(entidad.getIdpersona());
+        return clienteDao.actualizar(entidad);
     }
     
 }
