@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import pe.limatambo.enums.TipoFormatoExportacion;
 import pe.limatambo.excepcion.GeneralException;
 
 public class LimatamboUtil {
@@ -41,17 +42,15 @@ public class LimatamboUtil {
         return nick;
     }
     
-//    public static UsuarioM obtenerObjetoUsuarioSesion() {
-//        String codido = obtenerUsuarioSesion();
-//        return codido != null ?  new UsuarioM(codido): null;
-//    }
-
-//    public static void asignarUsuarioSesion(String nick) {
-//        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-//        HttpServletRequest request = requestAttributes.getRequest();
-//        HttpSession session = request.getSession(true);
-//        session.setAttribute(SessionEnum.USUARIO.getValue(), nick);
-//    }
+    public static String obtenerMimeTypeDeFormatoExportacion(String formatoExportacion) {
+        String mimeType = null;
+        if (formatoExportacion.equals(TipoFormatoExportacion.PDF.getValue())) {
+            mimeType = "application/pdf";
+        } else if (formatoExportacion.equals(TipoFormatoExportacion.EXCEL.getValue())) {
+            mimeType = "application/xls";
+        }
+        return mimeType;
+    }
 
     public static Timestamp obtenerFechaHoraActual() {
         java.util.Date date = new java.util.Date();

@@ -45,6 +45,9 @@ public class Pedido implements Serializable {
     @Column(name = "fechapedido")
     @Temporal(TemporalType.DATE)
     private Date fechapedido;
+    @Column(name = "fechaentrega")
+    @Temporal(TemporalType.DATE)
+    private Date fechaentrega;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "coordenadas")
     private Double coordenadas;
