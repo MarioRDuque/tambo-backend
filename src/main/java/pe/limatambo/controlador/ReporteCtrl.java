@@ -40,12 +40,14 @@ public class ReporteCtrl {
         Date fin = LimatamboUtil.obtenerFiltroComoDate(parameter, "fin");
         String  report = LimatamboUtil.obtenerFiltroComoString(parameter, "report");
         String codusu = LimatamboUtil.obtenerFiltroComoString(parameter, "codusu");
+        Integer idPedido = LimatamboUtil.obtenerFiltroComoInteger(parameter, "idPedido");
         try {
             if(codusu.toUpperCase() != null){
                 Map parametros = new HashMap();
                 parametros.put("report", report);
                 parametros.put("inicio", inicio);
                 parametros.put("fin", fin);
+                parametros.put("id", idPedido);
                 parametros.put("p_usuari", codusu.toUpperCase());
                 return reporteServicio.rptDescargar(parametros,response);   
             }else{

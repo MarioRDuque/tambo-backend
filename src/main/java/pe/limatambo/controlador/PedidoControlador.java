@@ -111,25 +111,27 @@ public class PedidoControlador {
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
     
-//    @RequestMapping(value = "obtenerDTO", method = RequestMethod.POST)
-//    public ResponseEntity obtenerDTO(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException {
-//        Respuesta resp = new Respuesta();
-//        try {
-//            Long id = RiesgosUtil.obtenerFiltroComoLong(parametros, "id");
-//            EventoDTO eventoBuscado = eventoServicio.obtenerDTO(id);
-//            if (eventoBuscado.getId() != null ) {
-//                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
-//                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
-//                resp.setExtraInfo(eventoBuscado);
-//                return new ResponseEntity<>(resp, HttpStatus.OK);
-//            }
-//            else{
-//                throw new GeneralException(Mensaje.NO_EXISTEN_DATOS, Mensaje.NO_EXISTEN_DATOS, loggerControlador);
-//            }
-//        } catch (Exception e) {
-//            throw e;
-//        }
-//    }
+    @RequestMapping(value = "cerrar", method = RequestMethod.POST)
+    public ResponseEntity cerrar(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException {
+        Respuesta resp = new Respuesta();
+        try {
+            int id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
+            Pedido pedido = pedidoServicio.obtener(Pedido.class, id);
+            pedido.setFechaentrega(new Date());
+            pedidoServicio.guardar(pedido);
+            if (pedido.getId() != null ) {
+                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                resp.setExtraInfo(pedido.getId());
+                return new ResponseEntity<>(resp, HttpStatus.OK);
+            }
+            else{
+                throw new GeneralException(Mensaje.NO_EXISTEN_DATOS, Mensaje.NO_EXISTEN_DATOS, loggerControlador);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
     
     @RequestMapping(value = "obtenerEntidad", method = RequestMethod.POST)
     public ResponseEntity obtenerEntidad(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException {

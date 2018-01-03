@@ -63,11 +63,12 @@ public class ReporteServicioImpl implements ReporteServicio{
                 connection.close();
             }
             throw e;
-        } finally {
+        } catch (Exception e) {
             if(connection != null){
                 connection.close();
             }
-        }
+            throw e;
+        } 
         return null;
     }
     

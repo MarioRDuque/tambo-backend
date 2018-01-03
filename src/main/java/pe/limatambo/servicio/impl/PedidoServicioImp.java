@@ -84,7 +84,8 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         filtro.setProjection(Projections.projectionList()
                 .add(Projections.property("id"), "codigo")
                 .add(Projections.property("descripcion"), "descripcion")
-                .add(Projections.property("fechapedido"), "fechaEntrega")
+                .add(Projections.property("fechapedido"), "fechaPedido")
+                .add(Projections.property("fechaentrega"), "fechaEntrega")
                 .add(Projections.property("direccion"), "direccion")
                 .add(Projections.property("persona.nombrecompleto"), "cliente"));
         filtro.calcularDatosParaPaginacion(busquedaPaginada);

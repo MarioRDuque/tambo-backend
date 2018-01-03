@@ -9,6 +9,7 @@ public class PedidoDTO {
     private Integer codigo;
     private String descripcion;
     private String cliente;
+    private Date fechaPedido;
     private Date fechaEntrega;
     private String direccion;
 
