@@ -16,4 +16,5 @@ import pe.limatambo.util.BusquedaPaginada;
 public interface ProductoServicio extends GenericoServicio<Producto, Integer>{
     public BusquedaPaginada busquedaPaginada(Producto entidadBuscar, BusquedaPaginada busquedaPaginada, String idProducto);
     public Producto insertar(Producto entidad) throws GeneralException;
+    public Producto actualizar(Producto producto) throws GeneralException;
 }

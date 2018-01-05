@@ -152,4 +152,26 @@ public class PedidoControlador {
             throw e;
         }
     }
+    
+    @RequestMapping(value = "eliminar/{id}", method = RequestMethod.GET)
+    public ResponseEntity eliminar(HttpServletRequest request, @PathVariable("id") Integer id) throws GeneralException {
+        Respuesta resp = new Respuesta();
+        try {
+            Pedido pedido = pedidoServicio.obtener(Pedido.class, id);
+            pedido.setEstado(Boolean.FALSE);
+            pedido = pedidoServicio.actualizar(pedido, null);
+            if (pedido!= null && pedido.getId()>0) {
+                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                resp.setExtraInfo(pedido);
+                return new ResponseEntity<>(resp, HttpStatus.OK);
+            }
+            else{
+                throw new GeneralException(Mensaje.NO_EXISTEN_DATOS, Mensaje.NO_EXISTEN_DATOS, loggerControlador);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
 }

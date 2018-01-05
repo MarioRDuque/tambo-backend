@@ -94,44 +94,12 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         return busquedaPaginada;
     }
 
-//    @Override
-//    public EventoDTO obtenerDTO(Long id) {
-//        EventoDTO dto = new EventoDTO();
-//        String[] lineas;
-//        Evento Ev = obtener(Evento.class, id);
-//        if (Ev!=null) {
-//            AgenciaPK pkAgencia = new AgenciaPK(CodigoCmacEnum.CMAC_PAITA.getCodigo(), Ev.getCCodage());
-//            Agencia agencia = agenciaDao.obtener(Agencia.class, pkAgencia);
-//            dto.setId(Ev.getNIdeven());
-//            dto.setFactor(Ev.getNIdfact()!=null ? Ev.getNIdfact().getCDenomi() : "");
-//            dto.setDescripcion(Ev.getCDescor());
-//            dto.setDescLarga(Ev.getCDeslar());
-//            dto.setEvidencia(Ev.getCEviden());
-//            dto.setTipoEvento(Ev.getNIdstev()!=null ? Ev.getNIdstev().getCDenomi(): "");
-//            dto.setRiesgo(Ev.getNIdtipr()!=null ? Ev.getNIdtipr().getCTipori(): "");
-//            dto.setProcesoOrigen(Ev.getNIdacti()!=null ? Ev.getNIdacti().getCDescri() : "");
-//            dto.setAgencia(agencia!=null ? agencia.getCDesage(): "");
-//            dto.setFechaOcurrencia(Ev.getDFocurr());
-//            dto.setFechaCreacion(Ev.getAufecins());
-//            dto.setUsuarioRegistra(Ev.getUserId()!=null ? Ev.getUserId().getCNomusu() : Ev.getCPerreg());
-//            lineas = new String[Ev.getEventoSubLineasDeNegocioList().size()];
-//            for (int i=0; i<Ev.getEventoSubLineasDeNegocioList().size() ;i++) {
-//                lineas[i] = Ev.getEventoSubLineasDeNegocioList().get(i).getNIdslne().getCSublne();
-//            }
-//            dto.setLineaNegocio(lineas);
-//        }
-//        return dto;
-//    }
-
     @Override
     public Pedido actualizar(Pedido pedido, Usuario usuario) {
         if(pedido.getId()> 0){
             pedido = pedidoDao.actualizar(pedido);
-//            if(pedido.getNIdeven() > 0 && usuario!=null){
-//                historicoDeCambiosEventosServicio.guardarHistorico(evento, usuario);
-//            }
         }else{
-            throw new GeneralException("Evento nulo", Mensaje.CAMPO_OBLIGATORIO_VACIO, loggerServicio);
+            throw new GeneralException("Pedido nulo", Mensaje.CAMPO_OBLIGATORIO_VACIO, loggerServicio);
         }
         return pedido;
     }

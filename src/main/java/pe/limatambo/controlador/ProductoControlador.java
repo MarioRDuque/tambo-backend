@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import pe.limatambo.entidades.Producto;
 import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.servicio.ProductoServicio;
 import pe.limatambo.util.BusquedaPaginada;
+import pe.limatambo.util.LimatamboUtil;
 import pe.limatambo.util.Mensaje;
 import pe.limatambo.util.Respuesta;
 /**
@@ -78,6 +77,71 @@ public class ProductoControlador {
             resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.ERROR.getValor());
         }
         return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+    
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity actualizar(HttpServletRequest request, @RequestBody Producto entidad) throws GeneralException {
+        Respuesta resp = new Respuesta();
+        if(entidad != null){
+            try {
+                Producto guardado = productoServicio.actualizar(entidad);
+                if (guardado != null ) {
+                    resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                    resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                    resp.setExtraInfo(guardado);
+                }else{
+                    throw new GeneralException(Mensaje.ERROR_CRUD_GUARDAR, "Guardar retorno nulo", loggerControlador);
+                }
+                
+            } catch (Exception e) {
+                throw e;
+            }
+        }else{
+            resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.ERROR.getValor());
+        }
+        return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="obtener", method = RequestMethod.POST)
+    public ResponseEntity obtener(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException{
+        Respuesta resp = new Respuesta();
+        try {
+            Integer id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
+            Producto producto = productoServicio.obtener(Producto.class, id);
+            if (producto!=null) {
+                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                resp.setExtraInfo(producto);
+            }else{
+                throw new GeneralException(Mensaje.ERROR_CRUD_LISTAR, "No hay datos", loggerControlador);
+            }
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        } catch (Exception e) {
+            loggerControlador.error(e.getMessage());
+            throw e;
+        }
+    }
+    
+    @RequestMapping(value="eliminar", method = RequestMethod.POST)
+    public ResponseEntity eliminar(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException{
+        Respuesta resp = new Respuesta();
+        try {
+            Integer id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
+            Producto producto = productoServicio.obtener(Producto.class, id);
+            producto.setEstado(Boolean.FALSE);
+            producto = productoServicio.actualizar(producto);
+            if (producto.getId()!=null) {
+                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                resp.setExtraInfo(producto);
+            }else{
+                throw new GeneralException(Mensaje.ERROR_CRUD_LISTAR, "No hay datos", loggerControlador);
+            }
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        } catch (Exception e) {
+            loggerControlador.error(e.getMessage());
+            throw e;
+        }
     }
     
 }

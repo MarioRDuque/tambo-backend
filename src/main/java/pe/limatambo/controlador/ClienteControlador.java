@@ -85,6 +85,7 @@ public class ClienteControlador {
         Respuesta resp = new Respuesta();
         if(entidad != null){
             try {
+            
                 Cliente guardado = clienteServicio.insertar(entidad);
                 if (guardado != null ) {
                     Tipodocumento documento = tipodocDao.obtener(Tipodocumento.class, guardado.getIdpersona().getIdtipodocumento().getId());
@@ -126,6 +127,28 @@ public class ClienteControlador {
             resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.ERROR.getValor());
         }
         return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="eliminar", method = RequestMethod.POST)
+    public ResponseEntity eliminar(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException{
+        Respuesta resp = new Respuesta();
+        try {
+            Integer id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
+            Cliente cliente = clienteServicio.obtener(Cliente.class, id);
+            cliente.setEstado(Boolean.FALSE);
+            clienteServicio.actualizar(cliente);
+            if (cliente.getId()!=null) {
+                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                resp.setExtraInfo(cliente);
+            }else{
+                throw new GeneralException(Mensaje.ERROR_CRUD_LISTAR, "No hay datos", loggerControlador);
+            }
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        } catch (Exception e) {
+            loggerControlador.error(e.getMessage());
+            throw e;
+        }
     }
     
 }

@@ -57,5 +57,10 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
         entidad.setEstado(Boolean.TRUE);
         return productoDao.insertar(entidad);
     }
+
+    @Override
+    public Producto actualizar(Producto producto) throws GeneralException {
+        return productoDao.actualizar(producto);
+    }
     
 }
