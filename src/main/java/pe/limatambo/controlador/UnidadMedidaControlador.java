@@ -142,7 +142,6 @@ public class UnidadMedidaControlador {
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
     
-    
     @RequestMapping(value="eliminar", method = RequestMethod.POST)
     public ResponseEntity eliminar(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException{
         Respuesta resp = new Respuesta();
@@ -164,4 +163,5 @@ public class UnidadMedidaControlador {
             throw e;
         }
     }
+
 }

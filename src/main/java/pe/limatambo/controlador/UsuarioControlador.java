@@ -21,6 +21,7 @@ import pe.limatambo.entidades.Usuario;
 import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.servicio.UsuarioServicio;
 import pe.limatambo.util.BusquedaPaginada;
+import pe.limatambo.util.LimatamboUtil;
 import pe.limatambo.util.Mensaje;
 import pe.limatambo.util.Respuesta;
 /**
@@ -56,6 +57,26 @@ public class UsuarioControlador {
         }
     }
     
+    @RequestMapping(value="obtener", method = RequestMethod.POST)
+    public ResponseEntity obtener(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException{
+        Respuesta resp = new Respuesta();
+        try {
+            Integer id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
+            Usuario unidad = usuarioServicio.obtener(Usuario.class, id);
+            if (unidad!=null) {
+                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                resp.setExtraInfo(unidad);
+            }else{
+                throw new GeneralException(Mensaje.ERROR_CRUD_LISTAR, "No hay datos", loggerControlador);
+            }
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        } catch (Exception e) {
+            loggerControlador.error(e.getMessage());
+            throw e;
+        }
+    }
+    
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity crear(HttpServletRequest request, @RequestBody Usuario entidad) throws GeneralException {
         Respuesta resp = new Respuesta();
@@ -78,5 +99,50 @@ public class UsuarioControlador {
         }
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
+    
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity actualizar(HttpServletRequest request, @RequestBody Usuario entidad) throws GeneralException {
+        Respuesta resp = new Respuesta();
+        if(entidad != null){
+            try {
+                Usuario guardado = usuarioServicio.actualizar(entidad);
+                if (guardado != null ) {
+                    resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                    resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                    resp.setExtraInfo(guardado);
+                }else{
+                    throw new GeneralException(Mensaje.ERROR_CRUD_GUARDAR, "Guardar retorno nulo", loggerControlador);
+                }
+            } catch (Exception e) {
+                throw e;
+            }
+        }else{
+            resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.ERROR.getValor());
+        }
+        return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="eliminar", method = RequestMethod.POST)
+    public ResponseEntity eliminar(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException{
+        Respuesta resp = new Respuesta();
+        try {
+            Integer id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
+            Usuario unidad = usuarioServicio.obtener(Usuario.class, id);
+            unidad.setEstado(Boolean.FALSE);
+            unidad = usuarioServicio.actualizar(unidad);
+            if (unidad.getId()!=null) {
+                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                resp.setExtraInfo(unidad);
+            }else{
+                throw new GeneralException(Mensaje.ERROR_CRUD_LISTAR, "No hay datos", loggerControlador);
+            }
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        } catch (Exception e) {
+            loggerControlador.error(e.getMessage());
+            throw e;
+        }
+    }
+
     
 }

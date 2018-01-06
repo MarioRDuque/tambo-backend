@@ -65,7 +65,7 @@ public class UnidadMedidaServicioImp extends GenericoServicioImpl<Unidadmedida, 
         busquedaPaginada.calcularCantidadDePaginas();
         busquedaPaginada.validarPaginaActual();
         filtro.calcularDatosParaPaginacion(busquedaPaginada);
-        filtro.addOrder(Order.desc("id"));
+        filtro.addOrder(Order.desc("descripcion"));
         busquedaPaginada.setRegistros(unidadMedidaDao.buscarPorCriteriaSinProyecciones(filtro));
         return busquedaPaginada;
     }

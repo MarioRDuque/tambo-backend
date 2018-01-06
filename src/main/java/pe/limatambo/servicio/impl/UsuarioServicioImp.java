@@ -74,4 +74,9 @@ public class UsuarioServicioImp extends GenericoServicioImpl<Usuario, Integer> i
         return usuarioDao.insertar(entidad);
     }
     
+    @Override
+    public Usuario actualizar(Usuario u) throws GeneralException {
+        return usuarioDao.actualizar(u);
+    }
+    
 }

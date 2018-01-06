@@ -70,4 +70,9 @@ public class TipoDocumentoServicioImp extends GenericoServicioImpl<Tipodocumento
         return tipoDocumentoDao.insertar(entidad);
     }
     
+    @Override
+    public Tipodocumento actualizar(Tipodocumento u) throws GeneralException {
+        return tipoDocumentoDao.actualizar(u);
+    }
+    
 }

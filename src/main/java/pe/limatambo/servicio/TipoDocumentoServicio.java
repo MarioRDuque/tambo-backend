@@ -16,4 +16,6 @@ import pe.limatambo.util.BusquedaPaginada;
 public interface TipoDocumentoServicio extends GenericoServicio<Tipodocumento, Integer>{
     public BusquedaPaginada busquedaPaginada(Tipodocumento entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc);
     public Tipodocumento insertar(Tipodocumento entidad) throws GeneralException;
+
+    public Tipodocumento actualizar(Tipodocumento unidad) throws GeneralException;
 }

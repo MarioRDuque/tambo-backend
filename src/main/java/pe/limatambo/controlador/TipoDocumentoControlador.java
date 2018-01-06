@@ -21,6 +21,7 @@ import pe.limatambo.entidades.Tipodocumento;
 import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.servicio.TipoDocumentoServicio;
 import pe.limatambo.util.BusquedaPaginada;
+import pe.limatambo.util.LimatamboUtil;
 import pe.limatambo.util.Mensaje;
 import pe.limatambo.util.Respuesta;
 /**
@@ -76,6 +77,71 @@ public class TipoDocumentoControlador {
             resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.ERROR.getValor());
         }
         return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+    
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity actualizar(HttpServletRequest request, @RequestBody Tipodocumento entidad) throws GeneralException {
+        Respuesta resp = new Respuesta();
+        if(entidad != null){
+            try {
+                Tipodocumento guardado = tipoDocumentoServicio.actualizar(entidad);
+                if (guardado != null ) {
+                    resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                    resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                    resp.setExtraInfo(guardado);
+                }else{
+                    throw new GeneralException(Mensaje.ERROR_CRUD_GUARDAR, "Guardar retorno nulo", loggerControlador);
+                }
+                
+            } catch (Exception e) {
+                throw e;
+            }
+        }else{
+            resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.ERROR.getValor());
+        }
+        return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="obtener", method = RequestMethod.POST)
+    public ResponseEntity obtener(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException{
+        Respuesta resp = new Respuesta();
+        try {
+            Integer id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
+            Tipodocumento unidad = tipoDocumentoServicio.obtener(Tipodocumento.class, id);
+            if (unidad!=null) {
+                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                resp.setExtraInfo(unidad);
+            }else{
+                throw new GeneralException(Mensaje.ERROR_CRUD_LISTAR, "No hay datos", loggerControlador);
+            }
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        } catch (Exception e) {
+            loggerControlador.error(e.getMessage());
+            throw e;
+        }
+    }
+    
+    @RequestMapping(value="eliminar", method = RequestMethod.POST)
+    public ResponseEntity eliminar(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException{
+        Respuesta resp = new Respuesta();
+        try {
+            Integer id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
+            Tipodocumento unidad = tipoDocumentoServicio.obtener(Tipodocumento.class, id);
+            unidad.setEstado(Boolean.FALSE);
+            unidad = tipoDocumentoServicio.actualizar(unidad);
+            if (unidad.getId()!=null) {
+                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                resp.setExtraInfo(unidad);
+            }else{
+                throw new GeneralException(Mensaje.ERROR_CRUD_LISTAR, "No hay datos", loggerControlador);
+            }
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        } catch (Exception e) {
+            loggerControlador.error(e.getMessage());
+            throw e;
+        }
     }
     
 }
