@@ -30,12 +30,14 @@ public class Unidadmedida implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 20)
+    @Size(max = 100)
     @Column(name = "descripcion")
     private String descripcion;
-    @Size(max = 15)
+    @Size(max = 50)
     @Column(name = "abreviatura")
     private String abreviatura;
+    @Column(name = "estado")
+    private Boolean estado;
 
     public Unidadmedida() {
     }

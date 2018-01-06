@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pe.limatambo.dao.GenericoDao;
-import pe.limatambo.entidades.Tipodocumento;
 import pe.limatambo.entidades.Unidadmedida;
 import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.servicio.UnidadMedidaServicio;
@@ -46,7 +45,13 @@ public class UnidadMedidaServicioImp extends GenericoServicioImpl<Unidadmedida, 
 
     @Override
     public Unidadmedida insertar(Unidadmedida entidad) throws GeneralException{
+        entidad.setEstado(Boolean.TRUE);
         return unidadMedidaDao.insertar(entidad);
+    }
+    
+    @Override
+    public Unidadmedida actualizar(Unidadmedida u) throws GeneralException {
+        return unidadMedidaDao.actualizar(u);
     }
     
     @Override
