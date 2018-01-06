@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2018-01-02T19:11:45 -->
+<!-- 2018-01-06T00:17:32 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlertaPolizasAVencer" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a7e0f6b-85ad-4488-8161-ce256ea7e6ef">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -143,21 +143,21 @@ and pe.id = $P{id}]]>
 	<detail>
 		<band height="186" splitType="Stretch">
 			<textField>
-				<reportElement x="114" y="8" width="440" height="20" uuid="ffdfc7d1-7767-475e-a7db-f0357a233caf"/>
+				<reportElement x="140" y="8" width="414" height="20" uuid="ffdfc7d1-7767-475e-a7db-f0357a233caf"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="114" y="50" width="439" height="20" uuid="e5ef4d21-2cef-4ca5-aafd-a718de1b5894"/>
+				<reportElement x="140" y="50" width="413" height="20" uuid="e5ef4d21-2cef-4ca5-aafd-a718de1b5894"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="114" y="29" width="439" height="20" uuid="bb335ad9-ab36-4641-b425-e7262dfb8585">
+				<reportElement x="140" y="29" width="413" height="20" uuid="bb335ad9-ab36-4641-b425-e7262dfb8585">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -166,45 +166,45 @@ and pe.id = $P{id}]]>
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="51" width="88" height="20" uuid="5beb3ebf-9391-46ac-987f-6b38f1f38f8c"/>
+				<reportElement x="10" y="51" width="130" height="20" uuid="5beb3ebf-9391-46ac-987f-6b38f1f38f8c"/>
 				<text><![CDATA[Cliente:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="31" width="90" height="20" uuid="501c72a6-85d4-4f7c-aeac-c1021d052cc2"/>
+				<reportElement x="10" y="31" width="130" height="20" uuid="501c72a6-85d4-4f7c-aeac-c1021d052cc2"/>
 				<text><![CDATA[Descripcion:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="11" width="103" height="20" uuid="80f1605d-299d-4336-9312-1d3591d8c817"/>
+				<reportElement x="10" y="11" width="130" height="20" uuid="80f1605d-299d-4336-9312-1d3591d8c817"/>
 				<text><![CDATA[Codigo del pedido:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="11" y="71" width="88" height="20" uuid="c5697667-1d83-466a-a02f-a391415e8c02"/>
+				<reportElement x="11" y="71" width="129" height="20" uuid="c5697667-1d83-466a-a02f-a391415e8c02"/>
 				<text><![CDATA[Dreccion:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="114" y="70" width="439" height="20" uuid="57cc3717-5317-48ce-a1c5-9edf602e54bc"/>
+				<reportElement x="140" y="70" width="413" height="20" uuid="57cc3717-5317-48ce-a1c5-9edf602e54bc"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="91" width="88" height="20" uuid="09ef32a6-adca-4e9b-b1a6-627a6f77ac96"/>
+				<reportElement x="10" y="91" width="130" height="20" uuid="09ef32a6-adca-4e9b-b1a6-627a6f77ac96"/>
 				<text><![CDATA[Fecha de proforma:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="11" y="111" width="88" height="20" uuid="e740bb57-b8b0-4461-9a13-19604c35ed3c"/>
+				<reportElement x="11" y="111" width="129" height="20" uuid="e740bb57-b8b0-4461-9a13-19604c35ed3c"/>
 				<text><![CDATA[Fecha de entrega:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="114" y="88" width="439" height="20" uuid="eb92d899-5b38-46a9-a7da-fab1e1da9e44"/>
+				<reportElement x="140" y="88" width="413" height="20" uuid="eb92d899-5b38-46a9-a7da-fab1e1da9e44"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{proforma}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="114" y="108" width="439" height="20" uuid="5a3a8a30-cac3-4327-9b37-9e1e927449d5"/>
+				<reportElement x="140" y="108" width="413" height="20" uuid="5a3a8a30-cac3-4327-9b37-9e1e927449d5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
