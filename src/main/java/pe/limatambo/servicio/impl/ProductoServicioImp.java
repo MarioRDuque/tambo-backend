@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pe.limatambo.dao.GenericoDao;
 import pe.limatambo.entidades.Producto;
+import pe.limatambo.entidades.Unidadmedida;
 import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.servicio.ProductoServicio;
 import pe.limatambo.util.BusquedaPaginada;
@@ -30,6 +31,8 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
     private final Logger loggerServicio = LoggerFactory.getLogger(getClass());
     @Autowired
     private GenericoDao<Producto, Integer> productoDao;
+    @Autowired
+    private GenericoDao<Unidadmedida, Integer> unidaDao;
 
     public ProductoServicioImp(GenericoDao<Producto, Integer> genericoHibernate) {
         super(genericoHibernate);
@@ -60,6 +63,12 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
 
     @Override
     public Producto actualizar(Producto producto) throws GeneralException {
+        if (producto.getIdunidad()!=null) {
+            Unidadmedida u = unidaDao.obtener(Unidadmedida.class, producto.getIdunidad().getId());
+            producto.setIdunidad(u);
+        } else {
+            throw new GeneralException("Guardar retorno nulo", "No existe unidad de medida.", loggerServicio);
+        }
         return productoDao.actualizar(producto);
     }
     
