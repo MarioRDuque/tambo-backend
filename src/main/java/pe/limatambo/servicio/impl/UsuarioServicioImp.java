@@ -42,10 +42,7 @@ public class UsuarioServicioImp extends GenericoServicioImpl<Usuario, Integer> i
         filtro = Criterio.forClass(Usuario.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
         if (numdoc!= null && !numdoc.equals("")) {
-            filtro.add(Restrictions.eq("dni", numdoc));
-        }
-        if (numdoc!= null && !numdoc.equals("")) {
-            filtro.add(Restrictions.eq("dni", numdoc));
+            filtro.add(Restrictions.ilike("dni", '%'+numdoc+'%'));
         }
         busquedaPaginada.setTotalRegistros(usuarioDao.cantidadPorCriteria(filtro, "id"));
         busquedaPaginada.calcularCantidadDePaginas();

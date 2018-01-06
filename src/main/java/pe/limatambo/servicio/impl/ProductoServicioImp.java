@@ -44,7 +44,7 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
         filtro = Criterio.forClass(Producto.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
         if (idProducto!= null) {
-            filtro.add(Restrictions.eq("id", idProducto));
+            filtro.add(Restrictions.ilike("nombre", '%'+idProducto+'%'));
         }
         busquedaPaginada.setTotalRegistros(productoDao.cantidadPorCriteria(filtro, "id"));
         busquedaPaginada.calcularCantidadDePaginas();

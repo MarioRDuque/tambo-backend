@@ -45,7 +45,7 @@ public class ProductoControlador {
             BusquedaPaginada busquedaPaginada = new BusquedaPaginada();
             busquedaPaginada.setBuscar(parametros);
             Producto entidadBuscar = new Producto();
-            codProducto = busquedaPaginada.obtenerFiltroComoString("idProducto");
+            codProducto = busquedaPaginada.obtenerFiltroComoString("despro");
             busquedaPaginada.setPaginaActual(pagina);
             busquedaPaginada.setCantidadPorPagina(cantidadPorPagina);
             busquedaPaginada = productoServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, codProducto);

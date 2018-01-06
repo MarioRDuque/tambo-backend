@@ -42,7 +42,7 @@ public class TipoDocumentoServicioImp extends GenericoServicioImpl<Tipodocumento
         filtro = Criterio.forClass(Tipodocumento.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
         if (numdoc!= null && !numdoc.equals("")) {
-            filtro.add(Restrictions.eq("abreviatura", numdoc));
+            filtro.add(Restrictions.ilike("abreviatura", '%'+numdoc+'%'));
         }
         busquedaPaginada.setTotalRegistros(tipoDocumentoDao.cantidadPorCriteria(filtro, "id"));
         busquedaPaginada.calcularCantidadDePaginas();

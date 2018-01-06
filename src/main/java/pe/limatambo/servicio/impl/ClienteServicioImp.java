@@ -49,7 +49,7 @@ public class ClienteServicioImp extends GenericoServicioImpl<Cliente, Integer> i
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
         filtro.createAlias("idpersona", "persona", JoinType.LEFT_OUTER_JOIN);
         if (numdoc!= null && !numdoc.equals("")) {
-            filtro.add(Restrictions.eq("persona.numdocumento", numdoc));
+            filtro.add(Restrictions.ilike("persona.numdocumento", '%'+numdoc+'%'));
         }
         busquedaPaginada.setTotalRegistros(clienteDao.cantidadPorCriteria(filtro, "id"));
         busquedaPaginada.calcularCantidadDePaginas();
