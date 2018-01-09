@@ -6,6 +6,7 @@
 package pe.limatambo.entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +39,8 @@ public class Unidadmedida implements Serializable {
     private String abreviatura;
     @Column(name = "estado")
     private Boolean estado;
+    @Column(name = "cantidad")
+    private BigDecimal cantidad;
 
     public Unidadmedida() {
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2017-12-24T11:25:40 -->
+<!-- 2018-01-09T12:42:07 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlertaPolizasAVencer" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a7e0f6b-85ad-4488-8161-ce256ea7e6ef">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -167,11 +167,11 @@ and pe.fechaentrega is null]]>
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="51" width="88" height="20" uuid="5beb3ebf-9391-46ac-987f-6b38f1f38f8c"/>
+				<reportElement x="10" y="51" width="103" height="20" uuid="5beb3ebf-9391-46ac-987f-6b38f1f38f8c"/>
 				<text><![CDATA[Cliente:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="31" width="90" height="20" uuid="501c72a6-85d4-4f7c-aeac-c1021d052cc2"/>
+				<reportElement x="10" y="31" width="103" height="20" uuid="501c72a6-85d4-4f7c-aeac-c1021d052cc2"/>
 				<text><![CDATA[Descripcion:]]></text>
 			</staticText>
 			<staticText>
@@ -185,7 +185,7 @@ and pe.fechaentrega is null]]>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="11" y="71" width="88" height="20" uuid="c5697667-1d83-466a-a02f-a391415e8c02"/>
+				<reportElement x="11" y="71" width="102" height="20" uuid="c5697667-1d83-466a-a02f-a391415e8c02"/>
 				<text><![CDATA[Dreccion:]]></text>
 			</staticText>
 			<textField>
@@ -196,7 +196,7 @@ and pe.fechaentrega is null]]>
 				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="91" width="88" height="20" uuid="09ef32a6-adca-4e9b-b1a6-627a6f77ac96"/>
+				<reportElement x="10" y="91" width="103" height="20" uuid="09ef32a6-adca-4e9b-b1a6-627a6f77ac96"/>
 				<text><![CDATA[Fecha de proforma:]]></text>
 			</staticText>
 			<textField>

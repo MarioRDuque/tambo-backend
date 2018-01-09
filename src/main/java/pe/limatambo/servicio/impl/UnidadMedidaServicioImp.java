@@ -41,6 +41,8 @@ public class UnidadMedidaServicioImp extends GenericoServicioImpl<Unidadmedida, 
     public List<Unidadmedida> listar() {
         Criterio filtro;
         filtro = Criterio.forClass(Unidadmedida.class);
+        filtro.add(Restrictions.eq("estado", true));
+        filtro.addOrder(Order.asc("descripcion"));
         return unidadMedidaDao.buscarPorCriteriaSinProyecciones(filtro);
     }
 

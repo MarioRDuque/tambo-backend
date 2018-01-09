@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -44,10 +45,15 @@ public class Detallepedido implements Serializable {
     @JoinColumn(name = "idproducto", referencedColumnName = "id")
     @ManyToOne
     private Producto idproducto;
-    @Column(name = "estado")
-    private Boolean estado;
     @Column(name = "idpedido", nullable = false)
     private Integer idpedido;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "estado")
+    private boolean estado;
+    @JoinColumn(name = "idunidad", referencedColumnName = "id")
+    @ManyToOne
+    private Unidadmedida idunidad;
 
     public Detallepedido() {
     }

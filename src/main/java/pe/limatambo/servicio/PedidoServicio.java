@@ -18,4 +18,5 @@ public interface PedidoServicio extends GenericoServicio<Pedido, Integer>{
     BusquedaPaginada busquedaPaginada(Pedido entidadBuscar, BusquedaPaginada busquedaPaginada, Integer idPedido, Date desde, Date hasta);
     Pedido actualizar(Pedido entidad, Usuario usuario);
     Pedido guardar(Pedido entidad);
+    public Pedido obtener(Integer id);
 }

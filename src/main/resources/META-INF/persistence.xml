@@ -31,6 +31,7 @@
     <class>pe.limatambo.entidades.Pagoefectivo</class>
     <class>pe.limatambo.entidades.Tipocambio</class>
     <class>pe.limatambo.entidades.Menutipousuario</class>
+    <class>pe.limatambo.entidades.Productomedida</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/limatambo"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

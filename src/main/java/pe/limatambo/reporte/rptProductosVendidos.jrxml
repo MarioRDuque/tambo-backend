@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2017-12-18T23:12:06 -->
+<!-- 2018-01-09T12:43:08 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlertaPolizasAVencer" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a7e0f6b-85ad-4488-8161-ce256ea7e6ef">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -13,7 +13,7 @@
 		<![CDATA[select p.id as codigo, p.nombre as descripcion, um.descripcion as medida, sum(dp.cantidad) as total
 from producto p, pedido pe, detallepedido dp, unidadmedida um
 where p.id=dp.idproducto and pe.id=dp.idpedido
-and p.idunidad = um.id and pe.fechaentrega = current_date
+and dp.idunidad = um.id and pe.fechaentrega = current_date
 group by p.id, um.descripcion]]>
 	</queryString>
 	<field name="codigo" class="java.lang.Long"/>

@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pe.limatambo.dao.GenericoDao;
 import pe.limatambo.entidades.Producto;
+import pe.limatambo.entidades.Productomedida;
+import pe.limatambo.entidades.ProductomedidaPK;
 import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.servicio.ProductoServicio;
 import pe.limatambo.util.BusquedaPaginada;
@@ -35,6 +38,8 @@ public class ProductoControlador {
     private final Logger loggerControlador = LoggerFactory.getLogger(getClass());
     @Autowired
     private ProductoServicio productoServicio;
+    @Autowired
+    private GenericoDao<Productomedida, ProductomedidaPK> productomedidaDao;
     
     @RequestMapping(value = "pagina/{pagina}/cantidadPorPagina/{cantidadPorPagina}", method = RequestMethod.POST)
     public ResponseEntity<BusquedaPaginada> busquedaPaginada(HttpServletRequest request, @PathVariable("pagina") Long pagina, 
@@ -137,6 +142,27 @@ public class ProductoControlador {
             }else{
                 throw new GeneralException(Mensaje.ERROR_CRUD_LISTAR, "No hay datos", loggerControlador);
             }
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        } catch (Exception e) {
+            loggerControlador.error(e.getMessage());
+            throw e;
+        }
+    }
+    
+    @RequestMapping(value="eliminarmedida", method = RequestMethod.POST)
+    public ResponseEntity eliminarmedida(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException{
+        Respuesta resp = new Respuesta();
+        try {
+            Integer idproducto = LimatamboUtil.obtenerFiltroComoInteger(parametros, "idproducto");
+            Integer idmedida = LimatamboUtil.obtenerFiltroComoInteger(parametros, "idmedida");
+            ProductomedidaPK pk = new ProductomedidaPK(idproducto, idmedida);
+            Productomedida pm = productomedidaDao.obtener(Productomedida.class, pk);
+            if (pm!=null) {
+                productomedidaDao.eliminar(pm);
+            }
+            resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+            resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+            resp.setExtraInfo(pm);
             return new ResponseEntity<>(resp, HttpStatus.OK);
         } catch (Exception e) {
             loggerControlador.error(e.getMessage());

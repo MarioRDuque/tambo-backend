@@ -5,7 +5,9 @@
  */
 package pe.limatambo.servicio.impl;
 
+import java.util.List;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pe.limatambo.dao.GenericoDao;
 import pe.limatambo.entidades.Producto;
+import pe.limatambo.entidades.Productomedida;
+import pe.limatambo.entidades.ProductomedidaPK;
 import pe.limatambo.entidades.Unidadmedida;
 import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.servicio.ProductoServicio;
@@ -33,6 +37,8 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
     private GenericoDao<Producto, Integer> productoDao;
     @Autowired
     private GenericoDao<Unidadmedida, Integer> unidaDao;
+    @Autowired
+    private GenericoDao<Productomedida, ProductomedidaPK> productoMedidaDao;
 
     public ProductoServicioImp(GenericoDao<Producto, Integer> genericoHibernate) {
         super(genericoHibernate);
@@ -58,16 +64,29 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
     @Override
     public Producto insertar(Producto entidad) throws GeneralException{
         entidad.setEstado(Boolean.TRUE);
-        return productoDao.insertar(entidad);
+        List<Productomedida> productoMedidas = entidad.getProductoMedidaList();
+        entidad.setProductoMedidaList(null);
+        entidad = productoDao.insertar(entidad);
+        if(productoMedidas != null){
+            for (Productomedida pm : productoMedidas) {
+                ProductomedidaPK pk = new ProductomedidaPK(entidad.getId(), pm.getUnidadmedida().getId());
+                pm.setProductomedidaPK(pk);
+                productoMedidaDao.insertar(pm);
+            }
+        }
+        entidad.setProductoMedidaList(productoMedidas);
+        return entidad;
     }
 
     @Override
     public Producto actualizar(Producto producto) throws GeneralException {
-        if (producto.getIdunidad()!=null) {
-            Unidadmedida u = unidaDao.obtener(Unidadmedida.class, producto.getIdunidad().getId());
-            producto.setIdunidad(u);
-        } else {
-            throw new GeneralException("Guardar retorno nulo", "No existe unidad de medida.", loggerServicio);
+        List<Productomedida> productoMedidas = producto.getProductoMedidaList();
+        if(productoMedidas != null){
+            productoMedidas.stream().forEach((pm) -> {
+                ProductomedidaPK pk = new ProductomedidaPK(producto.getId(), pm.getUnidadmedida().getId());
+                pm.setProductomedidaPK(pk);
+                productoMedidaDao.actualizar(pm);
+            });
         }
         return productoDao.actualizar(producto);
     }

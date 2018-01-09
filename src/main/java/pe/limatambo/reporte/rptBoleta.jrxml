@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2018-01-06T00:17:32 -->
+<!-- 2018-01-09T12:22:27 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlertaPolizasAVencer" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a7e0f6b-85ad-4488-8161-ce256ea7e6ef">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -37,7 +37,7 @@ and pe.id = $P{id}]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="false" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[BOLETA DE VENTA]]></text>
+				<text><![CDATA[NOTA DE PEDIDO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="433" y="0" width="46" height="15" uuid="5ac8c21b-ccc5-4ca8-b421-9d08a9f602df">

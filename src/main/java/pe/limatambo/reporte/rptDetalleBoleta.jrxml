@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2018-01-06T00:20:16 -->
+<!-- 2018-01-09T12:36:48 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="58f2929f-3546-4297-ae06-566d52fb5e24">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -11,7 +11,7 @@
 		<![CDATA[select p.nombre as descripcion, um.descripcion as medida, dp.cantidad, p.precioventa*dp.cantidad as precio
 from producto p, pedido pe, detallepedido dp, unidadmedida um
 where p.id=dp.idproducto and pe.id=dp.idpedido
-and p.idunidad = um.id and pe.id = $P{id}]]>
+and dp.idunidad = um.id and pe.id = $P{id} and dp.estado = true]]>
 	</queryString>
 	<field name="descripcion" class="java.lang.String"/>
 	<field name="medida" class="java.lang.String">
@@ -66,7 +66,7 @@ and p.idunidad = um.id and pe.id = $P{id}]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="15" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="-20" y="-5" width="380" height="20" uuid="2da7a295-ac77-4ec0-9d24-31aa06c805cf"/>
 				<box leftPadding="9">

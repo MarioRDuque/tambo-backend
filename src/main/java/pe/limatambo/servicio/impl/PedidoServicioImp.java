@@ -6,6 +6,7 @@
 package pe.limatambo.servicio.impl;
 
 import java.util.Date;
+import java.util.List;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -19,6 +20,8 @@ import pe.limatambo.dao.GenericoDao;
 import pe.limatambo.dto.PedidoDTO;
 import pe.limatambo.entidades.Detallepedido;
 import pe.limatambo.entidades.Pedido;
+import pe.limatambo.entidades.Productomedida;
+import pe.limatambo.entidades.ProductomedidaPK;
 import pe.limatambo.entidades.Usuario;
 import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.servicio.PedidoServicio;
@@ -41,6 +44,8 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
     private GenericoDao<Pedido, Integer> pedidoDao;
     @Autowired
     private GenericoDao<Detallepedido, Integer> pedidoDetalleDao;
+    @Autowired
+    private GenericoDao<Productomedida, ProductomedidaPK> productomedidaDao;
 
     public PedidoServicioImp(GenericoDao<Pedido, Integer> genericoHibernate) {
         super(genericoHibernate);
@@ -61,6 +66,19 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         return pedido;
     }
 
+    @Override
+    public Pedido obtener(Integer id) {
+        Pedido p = obtener(Pedido.class, id);
+        List<Detallepedido> dp = obtenerVigentes(id);
+        for (int i = 0; i < dp.size(); i++) {
+            List<Productomedida> pm = obtenerMedidasPorProducto(dp.get(i).getIdproducto().getId());
+            dp.get(i).getIdproducto().setProductoMedidaList(pm);
+        }
+        p.setDetallePedidoList(dp);
+        
+        return p;
+    }
+    
     @Override
     public BusquedaPaginada busquedaPaginada(Pedido entidadBuscar, BusquedaPaginada busquedaPaginada, Integer idPedido, Date desde, Date hasta) {
         Criterio filtro;
@@ -98,10 +116,25 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
     public Pedido actualizar(Pedido pedido, Usuario usuario) {
         if(pedido.getId()> 0){
             pedido = pedidoDao.actualizar(pedido);
-        }else{
+        } else {
             throw new GeneralException("Pedido nulo", Mensaje.CAMPO_OBLIGATORIO_VACIO, loggerServicio);
         }
         return pedido;
+    }
+
+    private List<Detallepedido> obtenerVigentes(Integer id) {
+        Criterio filtro;
+        filtro = Criterio.forClass(Detallepedido.class);
+        filtro.add(Restrictions.eq("estado", Boolean.TRUE));
+        filtro.add(Restrictions.eq("idpedido", id));
+        return pedidoDetalleDao.buscarPorCriteriaSinProyecciones(filtro);
+    }
+
+    private List<Productomedida> obtenerMedidasPorProducto(Integer id) {
+        Criterio filtro;
+        filtro = Criterio.forClass(Productomedida.class);
+        filtro.add(Restrictions.eq("productomedidaPK.idproducto", id));
+        return productomedidaDao.buscarPorCriteriaSinProyecciones(filtro);
     }
     
 }

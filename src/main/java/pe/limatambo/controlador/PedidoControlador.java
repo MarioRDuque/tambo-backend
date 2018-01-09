@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pe.limatambo.dao.GenericoDao;
+import pe.limatambo.entidades.Detallepedido;
 import pe.limatambo.entidades.Pedido;
 import pe.limatambo.entidades.Usuario;
 import pe.limatambo.excepcion.GeneralException;
@@ -39,6 +41,8 @@ public class PedidoControlador {
     private PedidoServicio pedidoServicio;
     @Autowired
     private TokenUtil tokenUtil;
+    @Autowired
+    private GenericoDao<Detallepedido, Integer> detallepedidoDao;
     
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity crear(HttpServletRequest request, @RequestBody Pedido entidad) throws GeneralException {
@@ -138,11 +142,32 @@ public class PedidoControlador {
         Respuesta resp = new Respuesta();
         try {
             Integer id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
-            Pedido pedidoBuscado = pedidoServicio.obtener(Pedido.class, id);
+            Pedido pedidoBuscado = pedidoServicio.obtener(id);
             if (pedidoBuscado!= null && pedidoBuscado.getId()>0) {
                 resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
                 resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
                 resp.setExtraInfo(pedidoBuscado);
+                return new ResponseEntity<>(resp, HttpStatus.OK);
+            }
+            else{
+                throw new GeneralException(Mensaje.NO_EXISTEN_DATOS, Mensaje.NO_EXISTEN_DATOS, loggerControlador);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    @RequestMapping(value = "eliminardetalle/{id}", method = RequestMethod.GET)
+    public ResponseEntity eliminardetalle(HttpServletRequest request, @PathVariable("id") Integer id) throws GeneralException {
+        Respuesta resp = new Respuesta();
+        try {
+            Detallepedido pedido = detallepedidoDao.obtener(Detallepedido.class, id);
+            pedido.setEstado(Boolean.FALSE);
+            pedido = detallepedidoDao.actualizar(pedido);
+            if (pedido!= null && pedido.getId()>0) {
+                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                resp.setExtraInfo(pedido);
                 return new ResponseEntity<>(resp, HttpStatus.OK);
             }
             else{

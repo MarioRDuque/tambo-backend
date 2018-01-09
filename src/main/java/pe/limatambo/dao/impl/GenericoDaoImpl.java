@@ -40,6 +40,11 @@ public class GenericoDaoImpl<Entidad extends Serializable, TipoLlave extends Ser
     }
 
     @Override
+    public void eliminar(Entidad entidad) {
+        this.sessionFactory.getCurrentSession().delete(entidad);
+    }
+    
+    @Override
     public List<Entidad> listarConFiltro(Criterio filtro, Projection proyeccion) {
         Criteria busqueda = filtro.getExecutableCriteria(this.sessionFactory.getCurrentSession());
         busqueda.setProjection(proyeccion);
@@ -59,7 +64,14 @@ public class GenericoDaoImpl<Entidad extends Serializable, TipoLlave extends Ser
         busqueda.setResultTransformer(new AliasToBeanResultTransformer(resultado));
         return busqueda.list();
     }
-
+    
+    @Override
+    public List<Entidad> listarPorCriteriaProyeccion(Criterio filtro) {
+        Criteria busqueda = filtro.getExecutableCriteria(this.sessionFactory.getCurrentSession());
+        busqueda.setFirstResult(((Criterio) filtro).getFirstResult());
+        return (List<Entidad>) busqueda.list();
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
     public Long cantidadPorCriteria(Criterio filtro, String distinctProperty) {
@@ -91,7 +103,7 @@ public class GenericoDaoImpl<Entidad extends Serializable, TipoLlave extends Ser
     public List<Entidad> buscarPorCriteriaSinProyecciones(Criterio filtro) {
         Criteria busqueda = filtro.getExecutableCriteria(this.sessionFactory.getCurrentSession());
         busqueda.setProjection(null);
-        busqueda.setResultTransformer(Criteria.ROOT_ENTITY);
+        busqueda.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         busqueda.setFirstResult(((Criterio) filtro).getFirstResult());
         return (List<Entidad>) busqueda.list();
     }
@@ -100,7 +112,7 @@ public class GenericoDaoImpl<Entidad extends Serializable, TipoLlave extends Ser
     public Entidad obtenerPorCriteriaSinProyecciones(Criterio filtro) {
         Criteria busqueda = filtro.getExecutableCriteria(this.sessionFactory.getCurrentSession());
         busqueda.setProjection(null);
-        busqueda.setResultTransformer(Criteria.ROOT_ENTITY);
+        busqueda.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         busqueda.setFirstResult(((Criterio) filtro).getFirstResult());
         return (Entidad) busqueda.uniqueResult();
     }
