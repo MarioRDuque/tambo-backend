@@ -53,8 +53,6 @@ public class Producto implements Serializable {
     private String ctacontable;
     @Column(name = "stockmin")
     private BigDecimal stockmin;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "afectoigv")
     private boolean afectoigv;
     @Size(max = 2147483647)
