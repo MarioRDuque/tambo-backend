@@ -53,8 +53,6 @@ public class Producto implements Serializable {
     private String ctacontable;
     @Column(name = "stockmin")
     private BigDecimal stockmin;
-    @Column(name = "afectoigv")
-    private boolean afectoigv;
     @Size(max = 2147483647)
     @Column(name = "observacion")
     private String observacion;
@@ -70,10 +68,9 @@ public class Producto implements Serializable {
         this.id = id;
     }
 
-    public Producto(Integer id, String nombre, boolean afectoigv) {
+    public Producto(Integer id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.afectoigv = afectoigv;
     }
 
     @Override
