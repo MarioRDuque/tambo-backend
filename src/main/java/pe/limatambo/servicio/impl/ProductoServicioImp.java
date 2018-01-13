@@ -7,7 +7,6 @@ package pe.limatambo.servicio.impl;
 
 import java.util.List;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,12 +44,15 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
     }
 
     @Override
-    public BusquedaPaginada busquedaPaginada(Producto entidadBuscar, BusquedaPaginada busquedaPaginada, String idProducto) {
+    public BusquedaPaginada busquedaPaginada(Producto entidadBuscar, BusquedaPaginada busquedaPaginada, String idProducto, int idCategoria) {
         Criterio filtro;
         filtro = Criterio.forClass(Producto.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
         if (idProducto!= null) {
             filtro.add(Restrictions.ilike("nombre", '%'+idProducto+'%'));
+        }
+        if (idCategoria>0) {
+            filtro.add(Restrictions.eq("idcategoria.id", idCategoria));
         }
         busquedaPaginada.setTotalRegistros(productoDao.cantidadPorCriteria(filtro, "id"));
         busquedaPaginada.calcularCantidadDePaginas();
@@ -58,6 +60,8 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
         filtro.calcularDatosParaPaginacion(busquedaPaginada);
         filtro.addOrder(Order.desc("id"));
         busquedaPaginada.setRegistros(productoDao.buscarPorCriteriaSinProyecciones(filtro));
+//        List<Producto> pList = (List<Producto>) busquedaPaginada.getRegistros();
+//        busquedaPaginada.setRegistros(pList);
         return busquedaPaginada;
     }
 
