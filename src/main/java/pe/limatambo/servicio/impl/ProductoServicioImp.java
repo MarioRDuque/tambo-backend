@@ -58,7 +58,7 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
         busquedaPaginada.calcularCantidadDePaginas();
         busquedaPaginada.validarPaginaActual();
         filtro.calcularDatosParaPaginacion(busquedaPaginada);
-        filtro.addOrder(Order.desc("id"));
+        filtro.addOrder(Order.asc("nombre"));
         busquedaPaginada.setRegistros(productoDao.buscarPorCriteriaSinProyecciones(filtro));
 //        List<Producto> pList = (List<Producto>) busquedaPaginada.getRegistros();
 //        busquedaPaginada.setRegistros(pList);
