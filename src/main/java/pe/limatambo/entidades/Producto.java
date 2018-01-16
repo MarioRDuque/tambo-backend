@@ -38,33 +38,33 @@ public class Producto implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 300)
-    @Column(name = "nombre")
-    private String nombre;
-    @Column(name = "idpresentacion")
-    private Integer idpresentacion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "costopromedio")
     private BigDecimal costopromedio;
-    @Column(name = "precioventa")
-    private BigDecimal precioventa;
     @Size(max = 12)
     @Column(name = "ctacontable")
     private String ctacontable;
-    @Column(name = "stockmin")
-    private BigDecimal stockmin;
-    @Size(max = 2147483647)
-    @Column(name = "observacion")
-    private String observacion;
     @Column(name = "estado")
     private Boolean estado;
+    @Column(name = "idpresentacion")
+    private Integer idpresentacion;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "nombre")
+    private String nombre;
+    @Size(max = 255)
+    @Column(name = "observacion")
+    private String observacion;
+    @Column(name = "precioventa")
+    private BigDecimal precioventa;
+    @Column(name = "stockmin")
+    private BigDecimal stockmin;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idproducto", fetch = FetchType.EAGER)
+    private List<Productomedida> productomedidaList;
     @JoinColumn(name = "idcategoria", referencedColumnName = "id")
     @ManyToOne
     private Categoria idcategoria;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idproducto", fetch=FetchType.EAGER)
-    private List<Productomedida> productoMedidaList;
 
     public Producto() {
     }

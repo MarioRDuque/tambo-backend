@@ -59,39 +59,28 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
         busquedaPaginada.validarPaginaActual();
         filtro.calcularDatosParaPaginacion(busquedaPaginada);
         filtro.addOrder(Order.asc("nombre"));
-        busquedaPaginada.setRegistros(productoDao.buscarPorCriteriaSinProyecciones(filtro));
-//        List<Producto> pList = (List<Producto>) busquedaPaginada.getRegistros();
-//        busquedaPaginada.setRegistros(pList);
+        List<Producto> p = productoDao.buscarPorCriteriaSinProyecciones(filtro);
+        busquedaPaginada.setRegistros(p);
         return busquedaPaginada;
     }
 
     @Override
     public Producto insertar(Producto entidad) throws GeneralException{
         entidad.setEstado(Boolean.TRUE);
-        List<Productomedida> productoMedidas = entidad.getProductoMedidaList();
-        entidad.setProductoMedidaList(null);
+        List<Productomedida> productoMedidas = entidad.getProductomedidaList();
+        entidad.setProductomedidaList(null);
         entidad = productoDao.insertar(entidad);
         if(productoMedidas != null){
             for (Productomedida pm : productoMedidas) {
-                ProductomedidaPK pk = new ProductomedidaPK(entidad.getId(), pm.getUnidadmedida().getId());
-                pm.setProductomedidaPK(pk);
+                pm.setIdproducto(entidad.getId());
                 productoMedidaDao.insertar(pm);
             }
         }
-        entidad.setProductoMedidaList(productoMedidas);
         return entidad;
     }
 
     @Override
     public Producto actualizar(Producto producto) throws GeneralException {
-        List<Productomedida> productoMedidas = producto.getProductoMedidaList();
-        if(productoMedidas != null){
-            productoMedidas.stream().forEach((pm) -> {
-                ProductomedidaPK pk = new ProductomedidaPK(producto.getId(), pm.getUnidadmedida().getId());
-                pm.setProductomedidaPK(pk);
-                productoMedidaDao.actualizar(pm);
-            });
-        }
         return productoDao.actualizar(producto);
     }
     

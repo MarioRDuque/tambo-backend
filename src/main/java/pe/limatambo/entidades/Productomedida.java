@@ -6,9 +6,13 @@
 package pe.limatambo.entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -23,29 +27,33 @@ import lombok.Data;
 @Table(name = "productomedida")
 public class Productomedida implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ProductomedidaPK productomedidaPK;
-    @JoinColumn(name = "idunidadmedida", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Unidadmedida unidadmedida;
-    @Column(name = "idproducto", insertable = false, updatable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "estado")
+    private Boolean estado;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "precio")
+    private BigDecimal precio;
+    @Column(name = "idproducto")
     private Integer idproducto;
+    @JoinColumn(name = "idunidadmedida", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Unidadmedida idunidadmedida;
 
     public Productomedida() {
     }
 
-    public Productomedida(ProductomedidaPK productomedidaPK) {
-        this.productomedidaPK = productomedidaPK;
-    }
-
-    public Productomedida(int idproducto, int idunidadmedida) {
-        this.productomedidaPK = new ProductomedidaPK(idproducto, idunidadmedida);
+    public Productomedida(Integer id) {
+        this.id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (productomedidaPK != null ? productomedidaPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -55,12 +63,12 @@ public class Productomedida implements Serializable {
             return false;
         }
         Productomedida other = (Productomedida) object;
-        return !((this.productomedidaPK == null && other.productomedidaPK != null) || (this.productomedidaPK != null && !this.productomedidaPK.equals(other.productomedidaPK)));
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "pe.limatambo.entidades.Productomedida[ productomedidaPK=" + productomedidaPK + " ]";
+        return "pe.limatambo.entidades.Productomedida[ id=" + id + " ]";
     }
     
 }
