@@ -6,16 +6,16 @@
 package pe.limatambo.entidades;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import lombok.Data;
 
 /**
@@ -24,29 +24,24 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "productomedida")
-public class Productomedida implements Serializable {
+@Table(name = "categoria")
+public class Categoria implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Size(max = 200)
+    @Column(name = "descripcion")
+    private String descripcion;
     @Column(name = "estado")
     private Boolean estado;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "precio")
-    private BigDecimal precio;
-    @Column(name = "idproducto")
-    private Integer idproducto;
-    @JoinColumn(name = "idunidadmedida", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Unidadmedida idunidadmedida;
 
-    public Productomedida() {
+    public Categoria() {
     }
 
-    public Productomedida(Integer id) {
+    public Categoria(Integer id) {
         this.id = id;
     }
 
@@ -59,16 +54,16 @@ public class Productomedida implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Productomedida)) {
+        if (!(object instanceof Categoria)) {
             return false;
         }
-        Productomedida other = (Productomedida) object;
+        Categoria other = (Categoria) object;
         return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "pe.limatambo.entidades.Productomedida[ id=" + id + " ]";
+        return "pe.limatambo.entidades.Categoria[ id=" + id + " ]";
     }
     
 }

@@ -43,13 +43,16 @@ public class ClienteServicioImp extends GenericoServicioImpl<Cliente, Integer> i
     }
 
     @Override
-    public BusquedaPaginada busquedaPaginada(Cliente entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc) {
+    public BusquedaPaginada busquedaPaginada(Cliente entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc, String nombre) {
         Criterio filtro;
         filtro = Criterio.forClass(Cliente.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
         filtro.createAlias("idpersona", "persona", JoinType.LEFT_OUTER_JOIN);
         if (numdoc!= null && !numdoc.equals("")) {
             filtro.add(Restrictions.ilike("persona.numdocumento", '%'+numdoc+'%'));
+        }
+        if (nombre!= null && !nombre.equals("")) {
+            filtro.add(Restrictions.ilike("persona.nombrecompleto", '%'+nombre+'%'));
         }
         busquedaPaginada.setTotalRegistros(clienteDao.cantidadPorCriteria(filtro, "id"));
         busquedaPaginada.calcularCantidadDePaginas();

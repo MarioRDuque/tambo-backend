@@ -7,7 +7,6 @@ package pe.limatambo.servicio.impl;
 
 import java.util.List;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,49 +44,43 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
     }
 
     @Override
-    public BusquedaPaginada busquedaPaginada(Producto entidadBuscar, BusquedaPaginada busquedaPaginada, String idProducto) {
+    public BusquedaPaginada busquedaPaginada(Producto entidadBuscar, BusquedaPaginada busquedaPaginada, String idProducto, int idCategoria) {
         Criterio filtro;
         filtro = Criterio.forClass(Producto.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
         if (idProducto!= null) {
             filtro.add(Restrictions.ilike("nombre", '%'+idProducto+'%'));
         }
+        if (idCategoria>0) {
+            filtro.add(Restrictions.eq("idcategoria.id", idCategoria));
+        }
         busquedaPaginada.setTotalRegistros(productoDao.cantidadPorCriteria(filtro, "id"));
         busquedaPaginada.calcularCantidadDePaginas();
         busquedaPaginada.validarPaginaActual();
         filtro.calcularDatosParaPaginacion(busquedaPaginada);
-        filtro.addOrder(Order.desc("id"));
-        busquedaPaginada.setRegistros(productoDao.buscarPorCriteriaSinProyecciones(filtro));
+        filtro.addOrder(Order.asc("nombre"));
+        List<Producto> p = productoDao.buscarPorCriteriaSinProyecciones(filtro);
+        busquedaPaginada.setRegistros(p);
         return busquedaPaginada;
     }
 
     @Override
     public Producto insertar(Producto entidad) throws GeneralException{
         entidad.setEstado(Boolean.TRUE);
-        List<Productomedida> productoMedidas = entidad.getProductoMedidaList();
-        entidad.setProductoMedidaList(null);
+        List<Productomedida> productoMedidas = entidad.getProductomedidaList();
+        entidad.setProductomedidaList(null);
         entidad = productoDao.insertar(entidad);
         if(productoMedidas != null){
             for (Productomedida pm : productoMedidas) {
-                ProductomedidaPK pk = new ProductomedidaPK(entidad.getId(), pm.getUnidadmedida().getId());
-                pm.setProductomedidaPK(pk);
+                pm.setIdproducto(entidad.getId());
                 productoMedidaDao.insertar(pm);
             }
         }
-        entidad.setProductoMedidaList(productoMedidas);
         return entidad;
     }
 
     @Override
     public Producto actualizar(Producto producto) throws GeneralException {
-        List<Productomedida> productoMedidas = producto.getProductoMedidaList();
-        if(productoMedidas != null){
-            productoMedidas.stream().forEach((pm) -> {
-                ProductomedidaPK pk = new ProductomedidaPK(producto.getId(), pm.getUnidadmedida().getId());
-                pm.setProductomedidaPK(pk);
-                productoMedidaDao.actualizar(pm);
-            });
-        }
         return productoDao.actualizar(producto);
     }
     

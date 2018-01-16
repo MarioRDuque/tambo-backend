@@ -47,13 +47,15 @@ public class ProductoControlador {
                                                              @RequestBody Map<String, Object> parametros) throws GeneralException{
         try {
             String codProducto;
+            int idCategoria;
             BusquedaPaginada busquedaPaginada = new BusquedaPaginada();
             busquedaPaginada.setBuscar(parametros);
             Producto entidadBuscar = new Producto();
             codProducto = busquedaPaginada.obtenerFiltroComoString("despro");
+            idCategoria = busquedaPaginada.obtenerFiltroComoInteger("idcat");
             busquedaPaginada.setPaginaActual(pagina);
             busquedaPaginada.setCantidadPorPagina(cantidadPorPagina);
-            busquedaPaginada = productoServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, codProducto);
+            busquedaPaginada = productoServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, codProducto, idCategoria);
             return new ResponseEntity<>(busquedaPaginada, HttpStatus.OK);
         } catch (Exception e) {
             loggerControlador.error(e.getMessage());

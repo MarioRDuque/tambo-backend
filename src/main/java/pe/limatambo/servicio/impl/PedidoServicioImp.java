@@ -20,6 +20,7 @@ import pe.limatambo.dao.GenericoDao;
 import pe.limatambo.dto.PedidoDTO;
 import pe.limatambo.entidades.Detallepedido;
 import pe.limatambo.entidades.Pedido;
+import pe.limatambo.entidades.Producto;
 import pe.limatambo.entidades.Productomedida;
 import pe.limatambo.entidades.ProductomedidaPK;
 import pe.limatambo.entidades.Usuario;
@@ -70,12 +71,12 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
     public Pedido obtener(Integer id) {
         Pedido p = obtener(Pedido.class, id);
         List<Detallepedido> dp = obtenerVigentes(id);
-        for (int i = 0; i < dp.size(); i++) {
-            List<Productomedida> pm = obtenerMedidasPorProducto(dp.get(i).getIdproducto().getId());
-            dp.get(i).getIdproducto().setProductoMedidaList(pm);
-        }
         p.setDetallePedidoList(dp);
-        
+        for (int i = 0; i < dp.size(); i++) {
+            Producto pr = dp.get(i).getIdproducto();
+            List<Productomedida> pm = obtenerMedidasPorProducto(pr.getId());
+            pr.setProductomedidaList(pm);
+        }
         return p;
     }
     
@@ -127,13 +128,14 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         filtro = Criterio.forClass(Detallepedido.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
         filtro.add(Restrictions.eq("idpedido", id));
-        return pedidoDetalleDao.buscarPorCriteriaSinProyecciones(filtro);
+        return pedidoDetalleDao.listarFiltroDistinct(filtro);
     }
 
     private List<Productomedida> obtenerMedidasPorProducto(Integer id) {
         Criterio filtro;
         filtro = Criterio.forClass(Productomedida.class);
-        filtro.add(Restrictions.eq("productomedidaPK.idproducto", id));
+        filtro.add(Restrictions.eq("idproducto", id));
+        filtro.add(Restrictions.eq("estado", true));
         return productomedidaDao.buscarPorCriteriaSinProyecciones(filtro);
     }
     
