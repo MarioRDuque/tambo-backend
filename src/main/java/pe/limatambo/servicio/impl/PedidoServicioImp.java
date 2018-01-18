@@ -7,6 +7,8 @@ package pe.limatambo.servicio.impl;
 
 import java.util.Date;
 import java.util.List;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -46,7 +48,9 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
     @Autowired
     private GenericoDao<Detallepedido, Integer> pedidoDetalleDao;
     @Autowired
-    private GenericoDao<Productomedida, ProductomedidaPK> productomedidaDao;
+    private GenericoDao<Productomedida, Integer> productomedidaDao;
+    @Autowired
+    private SessionFactory sessionFactory;
 
     public PedidoServicioImp(GenericoDao<Pedido, Integer> genericoHibernate) {
         super(genericoHibernate);
@@ -56,6 +60,7 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
     public Pedido guardar(Pedido pedido) {
         if(pedido != null){
             pedido.setEstado(Boolean.TRUE);
+            pedido.setFechapedido(new Date());
             pedido = pedidoDao.insertar(pedido);
             for (Detallepedido detalle : pedido.getDetallePedidoList()) {
                 detalle.setIdpedido(pedido.getId());
@@ -78,6 +83,14 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
             pr.setProductomedidaList(pm);
         }
         return p;
+    }
+
+    @Override
+    public void actualizarEstadoDetalle(Integer id) throws GeneralException {
+        String hql = "UPDATE Detallepedido SET estado=FALSE WHERE id=:id";
+            Query query = sessionFactory.getCurrentSession().createQuery(hql);
+            query.setParameter("id", id);
+            query.executeUpdate();
     }
     
     @Override

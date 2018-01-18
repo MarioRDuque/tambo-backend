@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2018-01-09T12:22:27 -->
+<!-- 2018-01-17T17:01:38 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlertaPolizasAVencer" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a7e0f6b-85ad-4488-8161-ce256ea7e6ef">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -11,7 +11,7 @@
 	<parameter name="p_usuari" class="java.lang.String"/>
 	<parameter name="id" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[select pe.id as codigo, pe.descripcion as descripcion, pe.direccion as direccion, 
+		<![CDATA[select pe.id as codigo, pe.descripcion as descripcion, COALESCE(pe.direccion,'NO ESPECIFICA') as direccion, 
 pe.fechapedido as proforma, pe.fechaentrega as entrega, p.nombrecompleto as cliente
 from pedido pe, cliente c, persona p
 where pe.idcliente = c.id and c.idpersona = p.id
@@ -109,7 +109,7 @@ and pe.id = $P{id}]]>
 				<textElement>
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<text><![CDATA[LIMATAMBO S.A.]]></text>
+				<text><![CDATA[LIMA S.A.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="15" width="60" height="15" uuid="ee59477c-dbc6-49c6-a74b-3b1566502b25">
@@ -211,7 +211,7 @@ and pe.id = $P{id}]]>
 				<textFieldExpression><![CDATA[$F{entrega}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement positionType="Float" x="0" y="140" width="575" height="40" uuid="9a853289-f7db-4702-8e84-136a9c93938c"/>
+				<reportElement positionType="Float" x="-20" y="140" width="595" height="40" uuid="9a853289-f7db-4702-8e84-136a9c93938c"/>
 				<subreportParameter name="id">
 					<subreportParameterExpression><![CDATA[$P{id}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -229,7 +229,7 @@ and pe.id = $P{id}]]>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Limatambo S.A.C.]]></text>
+				<text><![CDATA[Lima S.A.C.]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="378" y="6" width="100" height="20" uuid="067b32bf-d46f-4b80-9fb5-d490588d4131">

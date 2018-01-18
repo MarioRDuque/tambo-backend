@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2018-01-16T14:42:02 -->
+<!-- 2018-01-17T17:03:00 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlertaPolizasAVencer" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a7e0f6b-85ad-4488-8161-ce256ea7e6ef">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -104,7 +104,7 @@ group by p.id]]>
 				<textElement>
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<text><![CDATA[LIMATAMBO S.A.]]></text>
+				<text><![CDATA[LIMA S.A.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="15" width="60" height="15" uuid="ee59477c-dbc6-49c6-a74b-3b1566502b25">
@@ -181,6 +181,14 @@ group by p.id]]>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
 			</textField>
+			<subreport>
+				<reportElement x="-20" y="50" width="595" height="40" uuid="e002394e-844e-4be1-ab9b-fe3666b875cb"/>
+				<subreportParameter name="codigo">
+					<subreportParameterExpression><![CDATA[$F{codigo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORTE_DIR}+"rptDetalleProductosPorEntregar.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 	<pageFooter>
@@ -192,7 +200,7 @@ group by p.id]]>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Productos vendidos.]]></text>
+				<text><![CDATA[Productos por entregar.]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="378" y="6" width="100" height="20" uuid="067b32bf-d46f-4b80-9fb5-d490588d4131">

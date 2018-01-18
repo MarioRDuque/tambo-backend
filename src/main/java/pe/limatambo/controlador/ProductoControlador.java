@@ -39,7 +39,7 @@ public class ProductoControlador {
     @Autowired
     private ProductoServicio productoServicio;
     @Autowired
-    private GenericoDao<Productomedida, ProductomedidaPK> productomedidaDao;
+    private GenericoDao<Productomedida, Integer> productomedidaDao;
     
     @RequestMapping(value = "pagina/{pagina}/cantidadPorPagina/{cantidadPorPagina}", method = RequestMethod.POST)
     public ResponseEntity<BusquedaPaginada> busquedaPaginada(HttpServletRequest request, @PathVariable("pagina") Long pagina, 
@@ -114,7 +114,7 @@ public class ProductoControlador {
         Respuesta resp = new Respuesta();
         try {
             Integer id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
-            Producto producto = productoServicio.obtener(Producto.class, id);
+            Producto producto = productoServicio.obtener(id);
             if (producto!=null) {
                 resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
                 resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
@@ -134,7 +134,7 @@ public class ProductoControlador {
         Respuesta resp = new Respuesta();
         try {
             Integer id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
-            Producto producto = productoServicio.obtener(Producto.class, id);
+            Producto producto = productoServicio.obtener(id);
             producto.setEstado(Boolean.FALSE);
             producto = productoServicio.actualizar(producto);
             if (producto.getId()!=null) {
@@ -155,16 +155,17 @@ public class ProductoControlador {
     public ResponseEntity eliminarmedida(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws GeneralException{
         Respuesta resp = new Respuesta();
         try {
-            Integer idproducto = LimatamboUtil.obtenerFiltroComoInteger(parametros, "idproducto");
-            Integer idmedida = LimatamboUtil.obtenerFiltroComoInteger(parametros, "idmedida");
-            ProductomedidaPK pk = new ProductomedidaPK(idproducto, idmedida);
-            Productomedida pm = productomedidaDao.obtener(Productomedida.class, pk);
-            if (pm!=null) {
-                productomedidaDao.eliminar(pm);
+            Integer id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
+            Productomedida pm = productomedidaDao.obtener(Productomedida.class, id);
+            pm.setEstado(Boolean.FALSE);
+            pm = productomedidaDao.actualizar(pm);
+            if (pm.getId()!=null) {
+                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+                resp.setExtraInfo(pm);
+            } else {
+                throw new GeneralException(Mensaje.ERROR_CRUD_LISTAR, "No hay datos", loggerControlador);
             }
-            resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
-            resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
-            resp.setExtraInfo(pm);
             return new ResponseEntity<>(resp, HttpStatus.OK);
         } catch (Exception e) {
             loggerControlador.error(e.getMessage());

@@ -109,6 +109,14 @@ public class GenericoDaoImpl<Entidad extends Serializable, TipoLlave extends Ser
     }
     
     @Override
+    public List<Entidad> buscarPorCriteriaConProyecciones(Criterio filtro) {
+        Criteria busqueda = filtro.getExecutableCriteria(this.sessionFactory.getCurrentSession());
+        busqueda.setResultTransformer(Criteria.ROOT_ENTITY);
+        busqueda.setFirstResult(((Criterio) filtro).getFirstResult());
+        return (List<Entidad>) busqueda.list();
+    }
+    
+    @Override
     public List<Entidad> listarFiltroDistinct(Criterio filtro) {
         Criteria busqueda = filtro.getExecutableCriteria(this.sessionFactory.getCurrentSession());
         busqueda.setProjection(null);

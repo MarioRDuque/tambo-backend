@@ -17,4 +17,5 @@ public interface ProductoServicio extends GenericoServicio<Producto, Integer>{
     public BusquedaPaginada busquedaPaginada(Producto entidadBuscar, BusquedaPaginada busquedaPaginada, String idProducto, int idCategoria);
     public Producto insertar(Producto entidad) throws GeneralException;
     public Producto actualizar(Producto producto) throws GeneralException;
+    public Producto obtener(Integer id) throws GeneralException;
 }

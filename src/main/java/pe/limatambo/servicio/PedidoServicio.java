@@ -8,6 +8,7 @@ package pe.limatambo.servicio;
 import java.util.Date;
 import pe.limatambo.entidades.Pedido;
 import pe.limatambo.entidades.Usuario;
+import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.util.BusquedaPaginada;
 
 /**
@@ -19,4 +20,5 @@ public interface PedidoServicio extends GenericoServicio<Pedido, Integer>{
     Pedido actualizar(Pedido entidad, Usuario usuario);
     Pedido guardar(Pedido entidad);
     public Pedido obtener(Integer id);
+    public void actualizarEstadoDetalle(Integer id) throws GeneralException;
 }

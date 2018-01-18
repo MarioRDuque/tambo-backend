@@ -5,6 +5,7 @@
  */
 package pe.limatambo.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -60,7 +61,8 @@ public class Producto implements Serializable {
     private BigDecimal precioventa;
     @Column(name = "stockmin")
     private BigDecimal stockmin;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idproducto", fetch = FetchType.EAGER)
+//    @JsonIgnoreProperties("idproducto")
+    @OneToMany(mappedBy = "idproducto", fetch = FetchType.LAZY)
     private List<Productomedida> productomedidaList;
     @JoinColumn(name = "idcategoria", referencedColumnName = "id")
     @ManyToOne

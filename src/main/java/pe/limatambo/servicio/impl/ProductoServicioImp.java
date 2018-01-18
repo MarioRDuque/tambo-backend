@@ -7,6 +7,7 @@ package pe.limatambo.servicio.impl;
 
 import java.util.List;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,10 +61,22 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
         filtro.calcularDatosParaPaginacion(busquedaPaginada);
         filtro.addOrder(Order.asc("nombre"));
         List<Producto> p = productoDao.buscarPorCriteriaSinProyecciones(filtro);
+        for (int i = 0; i < p.size(); i++) {
+            List<Productomedida> pm = obtenerVigentes(p.get(i).getId());
+            p.get(i).setProductomedidaList(pm);
+        }
         busquedaPaginada.setRegistros(p);
         return busquedaPaginada;
     }
 
+    @Override
+    public Producto obtener(Integer id) throws GeneralException {
+        Producto p = obtener(Producto.class, id);
+        List<Productomedida> pm = obtenerVigentes(id);
+        p.setProductomedidaList(pm);
+        return p;
+    }
+    
     @Override
     public Producto insertar(Producto entidad) throws GeneralException{
         entidad.setEstado(Boolean.TRUE);
@@ -82,6 +95,14 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
     @Override
     public Producto actualizar(Producto producto) throws GeneralException {
         return productoDao.actualizar(producto);
+    }
+
+    private List<Productomedida> obtenerVigentes(Integer id) {
+        Criterio filtro;
+        filtro = Criterio.forClass(Productomedida.class);
+        filtro.add(Restrictions.eq("estado", Boolean.TRUE));
+        filtro.add(Restrictions.eq("idproducto", id));
+        return productoMedidaDao.listarFiltroDistinct(filtro);
     }
     
 }
