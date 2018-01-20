@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2018-01-20T16:59:18 -->
+<!-- 2018-01-20T17:16:48 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="58f2929f-3546-4297-ae06-566d52fb5e24">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="SUBREPORTE_DIR" class="java.lang.String"/>
 	<parameter name="p_usuari" class="java.lang.String"/>
-	<parameter name="id" class="java.lang.Integer"/>
+	<parameter name="codigo" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select p.nombre as descripcion, um.descripcion as medida, dp.cantidad as cantidad, dp.preciototal as precio
 from producto p, pedido pe, detallepedido dp, unidadmedida um
 where p.id=dp.idproducto and pe.id=dp.idpedido
-and dp.idunidad = um.id and pe.id = $P{id} and dp.estado = true]]>
+and dp.idunidad = um.id and pe.id = $P{codigo} and dp.estado = true]]>
 	</queryString>
 	<field name="descripcion" class="java.lang.String"/>
 	<field name="medida" class="java.lang.String">

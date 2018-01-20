@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2018-01-17T17:01:38 -->
+<!-- 2018-01-20T17:21:24 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlertaPolizasAVencer" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a7e0f6b-85ad-4488-8161-ce256ea7e6ef">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -213,7 +213,7 @@ and pe.id = $P{id}]]>
 			<subreport>
 				<reportElement positionType="Float" x="-20" y="140" width="595" height="40" uuid="9a853289-f7db-4702-8e84-136a9c93938c"/>
 				<subreportParameter name="id">
-					<subreportParameterExpression><![CDATA[$P{id}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$F{codigo}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORTE_DIR}+"rptDetalleBoleta.jasper"]]></subreportExpression>
