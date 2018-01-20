@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2018-01-20T15:56:59 -->
+<!-- 2018-01-20T16:59:18 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="58f2929f-3546-4297-ae06-566d52fb5e24">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -115,7 +115,7 @@ and dp.idunidad = um.id and pe.id = $P{id} and dp.estado = true]]>
 					<rightPen lineWidth="0.1"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new BigDecimal($F{cantidad}).setScale(2, BigDecimal.ROUND_HALF_DOWN)]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="450" y="-5" width="100" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="2e516414-1bef-4985-9aa7-790feaf4e6c5"/>
@@ -126,7 +126,7 @@ and dp.idunidad = um.id and pe.id = $P{id} and dp.estado = true]]>
 					<rightPen lineWidth="0.1"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new BigDecimal($F{precio}).setScale(2, BigDecimal.ROUND_HALF_DOWN)]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="10" y="-5" width="30" height="20" uuid="5a900035-b30a-4132-aaef-36fef15fec28"/>
@@ -178,7 +178,7 @@ and dp.idunidad = um.id and pe.id = $P{id} and dp.estado = true]]>
 					<rightPen lineWidth="0.1"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$V{suma}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new BigDecimal($V{suma}).setScale(2, BigDecimal.ROUND_HALF_DOWN)]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>
