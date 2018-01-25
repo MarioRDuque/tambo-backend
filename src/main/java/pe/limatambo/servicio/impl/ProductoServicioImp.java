@@ -94,6 +94,12 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
 
     @Override
     public Producto actualizar(Producto producto) throws GeneralException {
+        List<Productomedida> productoMedidas = producto.getProductomedidaList();
+        if(productoMedidas != null){
+            productoMedidas.stream().forEach((pm) -> {
+                productoMedidaDao.actualizar(pm);
+            });
+        }
         return productoDao.actualizar(producto);
     }
 

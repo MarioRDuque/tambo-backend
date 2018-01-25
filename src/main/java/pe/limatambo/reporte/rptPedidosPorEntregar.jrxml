@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2018-01-17T17:07:51 -->
+<!-- 2018-01-25T00:57:52 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlertaPolizasAVencer" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a7e0f6b-85ad-4488-8161-ce256ea7e6ef">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -16,7 +16,7 @@
 pe.fechapedido as proforma, pe.fechaentrega as entrega, p.nombrecompleto as cliente
 from pedido pe, cliente c, persona p
 where pe.idcliente = c.id and c.idpersona = p.id
-and pe.fechaentrega is null]]>
+and pe.fechaentrega is null and pe.estado = true]]>
 	</queryString>
 	<field name="codigo" class="java.lang.Long"/>
 	<field name="descripcion" class="java.lang.String">
@@ -110,7 +110,7 @@ and pe.fechaentrega is null]]>
 				<textElement>
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
-				<text><![CDATA[LIMA S.A.]]></text>
+				<text><![CDATA[LIMA]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="15" width="60" height="15" uuid="ee59477c-dbc6-49c6-a74b-3b1566502b25">
