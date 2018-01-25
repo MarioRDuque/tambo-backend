@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2018-01-25T00:57:07 -->
+<!-- 2018-01-25T17:11:56 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlertaPolizasAVencer" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a7e0f6b-85ad-4488-8161-ce256ea7e6ef">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -138,15 +138,16 @@ and pe.id = $P{id}]]>
 				</textElement>
 				<text><![CDATA[USUARIO:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="433" y="50" width="121" height="37" uuid="ed14f0fe-0297-49cd-adca-3b6dda228909"/>
+			<staticText>
+				<reportElement x="433" y="45" width="122" height="41" uuid="5a5c5128-04eb-4319-80a4-4e237b1c082c"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-			</textField>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<detail>

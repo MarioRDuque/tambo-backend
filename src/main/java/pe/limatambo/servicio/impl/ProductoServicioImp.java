@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pe.limatambo.dao.GenericoDao;
+import pe.limatambo.entidades.Categoria;
 import pe.limatambo.entidades.Producto;
 import pe.limatambo.entidades.Productomedida;
 import pe.limatambo.entidades.ProductomedidaPK;
@@ -37,6 +38,8 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
     private GenericoDao<Producto, Integer> productoDao;
     @Autowired
     private GenericoDao<Unidadmedida, Integer> unidaDao;
+    @Autowired
+    private GenericoDao<Categoria, Integer> categoriaDao;
     @Autowired
     private GenericoDao<Productomedida, ProductomedidaPK> productoMedidaDao;
 
@@ -89,6 +92,8 @@ public class ProductoServicioImp extends GenericoServicioImpl<Producto, Integer>
                 productoMedidaDao.insertar(pm);
             }
         }
+        Categoria c = categoriaDao.obtener(Categoria.class, entidad.getIdcategoria()!=null ? entidad.getIdcategoria().getId() : 0);
+        entidad.setIdcategoria(c);
         return entidad;
     }
 
