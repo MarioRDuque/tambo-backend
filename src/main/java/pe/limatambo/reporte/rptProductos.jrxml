@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2018-01-25T18:51:27 -->
+<!-- 2018-01-26T02:34:52 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlertaPolizasAVencer" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a7e0f6b-85ad-4488-8161-ce256ea7e6ef">
 	<property name="com.jaspersoft.studio.data.sql.tables" value="dW5pZGFkbWVkaWRhICw0NzEsOTAsNThkMTg3ZmMtNDRlNi00M2NlLWI3ZTctYTE4OWM1YzExNDY3&#xA;O2NhdGVnb3JpYSAsMjUsMTE2LDgyMTYxOGRmLTY0MzctNGMzOC1iZWYzLWE0YjBmMjkzMTVlMztw&#xA;cm9kdWN0byAsMTUyLDI1LDg5ODQwMjYzLTZkNjktNDZlYi05NDc0LTIyOTI0NGE5ZWUzZTtwcm9k&#xA;dWN0b21lZGlkYSAsMjk5LDg5LDk5MzlhZDViLWNhMmMtNGUxMS05YWU0LTgyNmRjZDU2NjIxNDs="/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Limatambo"/>
@@ -10,7 +10,9 @@
 	<parameter name="SUBREPORTE_DIR" class="java.lang.String"/>
 	<parameter name="p_usuari" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT c.id AS idcategoria,
+		<![CDATA[SELECT 
+ROW_NUMBER() OVER(ORDER BY c.id asc) as fila,
+c.id AS idcategoria,
 	p.id AS idproducto,
 	c.descripcion AS categoria,
 	p.nombre AS producto,
@@ -24,7 +26,7 @@ WHERE
 	 p.id = pm.idproducto 
 	 AND pm.idunidadmedida = u.id 
 	 AND c.id = p.idcategoria 
-ORDER BY c.id DESC]]>
+ORDER BY c.id asc]]>
 	</queryString>
 	<field name="idproducto" class="java.lang.Integer"/>
 	<field name="idcategoria" class="java.lang.Integer">
@@ -34,6 +36,7 @@ ORDER BY c.id DESC]]>
 	<field name="producto" class="java.lang.String"/>
 	<field name="precio" class="java.lang.Double"/>
 	<field name="unidad" class="java.lang.String"/>
+	<field name="fila" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -193,7 +196,7 @@ ORDER BY c.id DESC]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fila}]]></textFieldExpression>
 			</textField>
 			<subreport>
 				<reportElement x="-20" y="50" width="595" height="40" uuid="e002394e-844e-4be1-ab9b-fe3666b875cb"/>
