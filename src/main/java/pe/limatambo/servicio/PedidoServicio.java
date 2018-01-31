@@ -16,7 +16,7 @@ import pe.limatambo.util.BusquedaPaginada;
  * @author dev-out-03
  */
 public interface PedidoServicio extends GenericoServicio<Pedido, Integer>{
-    BusquedaPaginada busquedaPaginada(Pedido entidadBuscar, BusquedaPaginada busquedaPaginada, Integer idPedido, Date desde, Date hasta);
+    BusquedaPaginada busquedaPaginada(Pedido entidadBuscar, BusquedaPaginada busquedaPaginada, Integer idPedido, Date desde, Date hasta, String dni, String nombre);
     Pedido actualizar(Pedido entidad, Usuario usuario);
     Pedido guardar(Pedido entidad);
     public Pedido obtener(Integer id);

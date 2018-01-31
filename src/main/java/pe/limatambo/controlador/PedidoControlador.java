@@ -73,6 +73,7 @@ public class PedidoControlador {
                                                              @RequestBody Map<String, Object> parametros){
             Integer idPedido;
             Date desde, hasta;
+            String dni, nombre;
             BusquedaPaginada busquedaPaginada = new BusquedaPaginada();
             busquedaPaginada.setBuscar(parametros);
             Pedido entidadBuscar = new Pedido();
@@ -80,10 +81,12 @@ public class PedidoControlador {
             idPedido = busquedaPaginada.obtenerFiltroComoInteger("idPedido");
             desde = busquedaPaginada.obtenerFiltroComoDate("desde");
             hasta = busquedaPaginada.obtenerFiltroComoDate("hasta");
+            dni = busquedaPaginada.obtenerFiltroComoString("dni");
+            nombre = busquedaPaginada.obtenerFiltroComoString("nombre");
 
             busquedaPaginada.setPaginaActual(pagina);
             busquedaPaginada.setCantidadPorPagina(cantidadPorPagina);
-            busquedaPaginada = pedidoServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, idPedido, desde, hasta);
+            busquedaPaginada = pedidoServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, idPedido, desde, hasta, dni, nombre);
             return new ResponseEntity<>(busquedaPaginada, HttpStatus.OK);
     }
     

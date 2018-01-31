@@ -24,7 +24,6 @@ import pe.limatambo.entidades.Detallepedido;
 import pe.limatambo.entidades.Pedido;
 import pe.limatambo.entidades.Producto;
 import pe.limatambo.entidades.Productomedida;
-import pe.limatambo.entidades.ProductomedidaPK;
 import pe.limatambo.entidades.Usuario;
 import pe.limatambo.excepcion.GeneralException;
 import pe.limatambo.servicio.PedidoServicio;
@@ -94,7 +93,7 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
     }
     
     @Override
-    public BusquedaPaginada busquedaPaginada(Pedido entidadBuscar, BusquedaPaginada busquedaPaginada, Integer idPedido, Date desde, Date hasta) {
+    public BusquedaPaginada busquedaPaginada(Pedido entidadBuscar, BusquedaPaginada busquedaPaginada, Integer idPedido, Date desde, Date hasta, String dni, String nombre) {
         Criterio filtro;
         filtro = Criterio.forClass(Pedido.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
@@ -102,6 +101,12 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         filtro.createAlias("cliente.idpersona", "persona", JoinType.LEFT_OUTER_JOIN);
         if (idPedido!= null && idPedido>0) {
             filtro.add(Restrictions.eq("id", idPedido));
+        }
+        if (dni!= null) {
+            filtro.add(Restrictions.ilike("persona.numdocumento", '%'+dni+'%'));
+        }
+        if (nombre!= null) {
+            filtro.add(Restrictions.ilike("persona.nombrecompleto", '%'+nombre+'%'));
         }
         if (LimatamboUtil.sonNoNulos(desde, hasta)) {
             if (desde.before(hasta)) {
