@@ -93,7 +93,7 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
     }
     
     @Override
-    public BusquedaPaginada busquedaPaginada(Pedido entidadBuscar, BusquedaPaginada busquedaPaginada, Integer idPedido, Date desde, Date hasta, String dni, String nombre) {
+    public BusquedaPaginada busquedaPaginada(Pedido entidadBuscar, BusquedaPaginada busquedaPaginada, Integer idPedido, Date desde, Date hasta, String dni, String nombre, String idubigeo) {
         Criterio filtro;
         filtro = Criterio.forClass(Pedido.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
@@ -104,6 +104,9 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         }
         if (dni!= null) {
             filtro.add(Restrictions.ilike("persona.numdocumento", '%'+dni+'%'));
+        }
+        if (idubigeo!= null && !idubigeo.equals("")) {
+            filtro.add(Restrictions.eq("persona.idubigeo.id", Integer.parseInt(idubigeo)));
         }
         if (nombre!= null) {
             filtro.add(Restrictions.ilike("persona.nombrecompleto", '%'+nombre+'%'));

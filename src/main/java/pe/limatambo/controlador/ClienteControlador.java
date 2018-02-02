@@ -45,15 +45,16 @@ public class ClienteControlador {
                                                              @PathVariable("cantidadPorPagina") Long cantidadPorPagina, 
                                                              @RequestBody Map<String, Object> parametros) throws GeneralException{
         try {
-            String docCliente, nombre;
+            String docCliente, nombre, idubigeo;
             BusquedaPaginada busquedaPaginada = new BusquedaPaginada();
             busquedaPaginada.setBuscar(parametros);
             Cliente entidadBuscar = new Cliente();
             docCliente = busquedaPaginada.obtenerFiltroComoString("docCliente");
             nombre = busquedaPaginada.obtenerFiltroComoString("nombre");
+            idubigeo = busquedaPaginada.obtenerFiltroComoString("idubigeo");
             busquedaPaginada.setPaginaActual(pagina);
             busquedaPaginada.setCantidadPorPagina(cantidadPorPagina);
-            busquedaPaginada = clienteServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, docCliente, nombre);
+            busquedaPaginada = clienteServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, docCliente, nombre, idubigeo);
             return new ResponseEntity<>(busquedaPaginada, HttpStatus.OK);
         } catch (Exception e) {
             loggerControlador.error(e.getMessage());

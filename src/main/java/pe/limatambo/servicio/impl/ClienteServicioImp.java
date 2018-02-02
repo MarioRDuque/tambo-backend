@@ -5,6 +5,7 @@
  */
 package pe.limatambo.servicio.impl;
 
+import com.bea.xml.stream.samples.Parse;
 import java.util.Objects;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -43,13 +44,16 @@ public class ClienteServicioImp extends GenericoServicioImpl<Cliente, Integer> i
     }
 
     @Override
-    public BusquedaPaginada busquedaPaginada(Cliente entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc, String nombre) {
+    public BusquedaPaginada busquedaPaginada(Cliente entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc, String nombre, String idubigeo) {
         Criterio filtro;
         filtro = Criterio.forClass(Cliente.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
         filtro.createAlias("idpersona", "persona", JoinType.LEFT_OUTER_JOIN);
         if (numdoc!= null && !numdoc.equals("")) {
             filtro.add(Restrictions.ilike("persona.numdocumento", '%'+numdoc+'%'));
+        }
+        if (idubigeo!= null && !idubigeo.equals("")) {
+            filtro.add(Restrictions.eq("persona.idubigeo.id", Integer.parseInt(idubigeo)));
         }
         if (nombre!= null && !nombre.equals("")) {
             filtro.add(Restrictions.ilike("persona.nombrecompleto", '%'+nombre+'%'));

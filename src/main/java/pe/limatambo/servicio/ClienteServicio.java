@@ -14,7 +14,7 @@ import pe.limatambo.util.BusquedaPaginada;
  * @author dev-out-03
  */
 public interface ClienteServicio extends GenericoServicio<Cliente, Integer>{
-    public BusquedaPaginada busquedaPaginada(Cliente entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc, String nombre);
+    public BusquedaPaginada busquedaPaginada(Cliente entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc, String nombre, String idubigeo);
     public Cliente insertar(Cliente entidad) throws GeneralException;
     public Cliente actualizar(Cliente entidad) throws GeneralException;
 }
