@@ -57,7 +57,7 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
 
     @Override
     public Pedido guardar(Pedido pedido) {
-        if(pedido != null){
+        if(pedido != null) {
             pedido.setEstado(Boolean.TRUE);
             pedido.setFechapedido(new Date());
             pedido = pedidoDao.insertar(pedido);
@@ -65,7 +65,7 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
                 detalle.setIdpedido(pedido.getId());
                 pedidoDetalleDao.insertar(detalle);
             }
-        }else{
+        } else{
             throw new GeneralException("Evento nulo", Mensaje.CAMPO_OBLIGATORIO_VACIO, loggerServicio);
         }
         return pedido;
