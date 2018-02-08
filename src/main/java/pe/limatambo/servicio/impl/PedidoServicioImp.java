@@ -130,6 +130,7 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
                 .add(Projections.property("id"), "codigo")
                 .add(Projections.property("descripcion"), "descripcion")
                 .add(Projections.property("fechapedido"), "fechaPedido")
+                .add(Projections.property("fechalimite"), "fechaLimite")
                 .add(Projections.property("fechaentrega"), "fechaEntrega")
                 .add(Projections.property("direccion"), "direccion")
                 .add(Projections.property("usuariosave"), "usuariosave")

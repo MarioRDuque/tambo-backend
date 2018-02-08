@@ -10,6 +10,7 @@ public class PedidoDTO {
     private String descripcion;
     private String cliente;
     private Date fechaPedido;
+    private Date fechaLimite;
     private Date fechaEntrega;
     private String direccion;
     private String usuariosave;
