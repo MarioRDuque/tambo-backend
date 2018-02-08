@@ -105,7 +105,7 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
             filtro.add(Restrictions.eq("id", idPedido));
         }
         if (tipoUsuario!= null && tipoUsuario>1) {
-            filtro.add(Restrictions.eq("usuarioSave", usuario));
+            filtro.add(Restrictions.eq("usuariosave", usuario));
         }
         if (dni!= null) {
             filtro.add(Restrictions.ilike("persona.numdocumento", '%'+dni+'%'));
