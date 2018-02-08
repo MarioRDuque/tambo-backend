@@ -12,6 +12,7 @@ public class PedidoDTO {
     private Date fechaPedido;
     private Date fechaEntrega;
     private String direccion;
+    private String usuariosave;
 
     public PedidoDTO() {
     }

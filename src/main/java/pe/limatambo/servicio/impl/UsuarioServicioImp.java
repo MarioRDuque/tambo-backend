@@ -40,7 +40,7 @@ public class UsuarioServicioImp extends GenericoServicioImpl<Usuario, Integer> i
     public BusquedaPaginada busquedaPaginada(Usuario entidadBuscar, BusquedaPaginada busquedaPaginada, String numdoc, String nomusu) {
         Criterio filtro;
         filtro = Criterio.forClass(Usuario.class);
-        filtro.add(Restrictions.eq("estado", Boolean.TRUE));
+        //filtro.add(Restrictions.eq("estado", Boolean.TRUE));
         if (numdoc!= null && !numdoc.equals("")) {
             filtro.add(Restrictions.ilike("dni", '%'+numdoc+'%'));
         }

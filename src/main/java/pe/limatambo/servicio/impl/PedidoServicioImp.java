@@ -93,7 +93,9 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
     }
     
     @Override
-    public BusquedaPaginada busquedaPaginada(Pedido entidadBuscar, BusquedaPaginada busquedaPaginada, Integer idPedido, Date desde, Date hasta, String dni, String nombre, String idubigeo) {
+    public BusquedaPaginada busquedaPaginada(Pedido entidadBuscar, BusquedaPaginada busquedaPaginada, 
+            Integer idPedido, Date desde, Date hasta, String dni, String nombre, String idubigeo,
+            String usuario, Integer tipoUsuario) {
         Criterio filtro;
         filtro = Criterio.forClass(Pedido.class);
         filtro.add(Restrictions.eq("estado", Boolean.TRUE));
@@ -101,6 +103,9 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         filtro.createAlias("cliente.idpersona", "persona", JoinType.LEFT_OUTER_JOIN);
         if (idPedido!= null && idPedido>0) {
             filtro.add(Restrictions.eq("id", idPedido));
+        }
+        if (tipoUsuario!= null && tipoUsuario>1) {
+            filtro.add(Restrictions.eq("usuarioSave", usuario));
         }
         if (dni!= null) {
             filtro.add(Restrictions.ilike("persona.numdocumento", '%'+dni+'%'));
@@ -127,6 +132,7 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
                 .add(Projections.property("fechalimite"), "fechaPedido")
                 .add(Projections.property("fechaentrega"), "fechaEntrega")
                 .add(Projections.property("direccion"), "direccion")
+                .add(Projections.property("usuariosave"), "usuariosave")
                 .add(Projections.property("persona.nombrecompleto"), "cliente"));
         filtro.calcularDatosParaPaginacion(busquedaPaginada);
         filtro.addOrder(Order.desc("id"));

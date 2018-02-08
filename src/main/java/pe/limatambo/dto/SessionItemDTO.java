@@ -11,5 +11,6 @@ public class SessionItemDTO {
     private String usuarioId;
     private String nombre;
     private List<Menu> menus;
+    private Integer tipoUsuario;
     
 }

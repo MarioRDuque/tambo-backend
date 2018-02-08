@@ -59,6 +59,12 @@ public class Pedido implements Serializable {
     private String direccion;
     @Column(name = "estado")
     private Boolean estado;
+    @Size(max = 90)
+    @Column(name = "usuariosave")
+    private String usuariosave;
+    @Size(max = 90)
+    @Column(name = "usuarioupdate")
+    private String usuarioupdate;
     @JoinColumn(name = "idcliente", referencedColumnName = "id")
     @ManyToOne
     private Cliente idcliente;

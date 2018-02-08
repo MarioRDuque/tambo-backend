@@ -71,23 +71,26 @@ public class PedidoControlador {
     public ResponseEntity<BusquedaPaginada> busquedaPaginada(HttpServletRequest request, @PathVariable("pagina") Long pagina, 
                                                              @PathVariable("cantidadPorPagina") Long cantidadPorPagina, 
                                                              @RequestBody Map<String, Object> parametros){
-            Integer idPedido;
+            Integer idPedido, tipoUsuario = 0;
             Date desde, hasta;
-            String dni, nombre, idubigeo;
+            String dni, nombre, idubigeo, usuario;
             BusquedaPaginada busquedaPaginada = new BusquedaPaginada();
             busquedaPaginada.setBuscar(parametros);
             Pedido entidadBuscar = new Pedido();
 
             idPedido = busquedaPaginada.obtenerFiltroComoInteger("idPedido");
+            tipoUsuario = busquedaPaginada.obtenerFiltroComoInteger("tipoUsuario");
             desde = busquedaPaginada.obtenerFiltroComoDate("desde");
             hasta = busquedaPaginada.obtenerFiltroComoDate("hasta");
             dni = busquedaPaginada.obtenerFiltroComoString("dni");
             nombre = busquedaPaginada.obtenerFiltroComoString("nombre");
             idubigeo = busquedaPaginada.obtenerFiltroComoString("idubigeo");
+            usuario = busquedaPaginada.obtenerFiltroComoString("usuario");
 
             busquedaPaginada.setPaginaActual(pagina);
             busquedaPaginada.setCantidadPorPagina(cantidadPorPagina);
-            busquedaPaginada = pedidoServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, idPedido, desde, hasta, dni, nombre, idubigeo);
+            busquedaPaginada = pedidoServicio.busquedaPaginada(entidadBuscar, busquedaPaginada, idPedido, desde, 
+                    hasta, dni, nombre, idubigeo, usuario, tipoUsuario);
             return new ResponseEntity<>(busquedaPaginada, HttpStatus.OK);
     }
     
