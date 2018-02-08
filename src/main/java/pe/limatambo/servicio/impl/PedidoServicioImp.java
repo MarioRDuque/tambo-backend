@@ -47,6 +47,8 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
     @Autowired
     private GenericoDao<Detallepedido, Integer> pedidoDetalleDao;
     @Autowired
+    private GenericoDao<Usuario, Integer> usuarioDao;
+    @Autowired
     private GenericoDao<Productomedida, Integer> productomedidaDao;
     @Autowired
     private SessionFactory sessionFactory;
@@ -105,7 +107,8 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
             filtro.add(Restrictions.eq("id", idPedido));
         }
         if (tipoUsuario!= null && tipoUsuario>1) {
-            filtro.add(Restrictions.eq("usuariosave", usuario));
+            String[] admins = obtenerAdmins();
+            filtro.add(Restrictions.in("usuariosave", admins));
         }
         if (dni!= null) {
             filtro.add(Restrictions.ilike("persona.numdocumento", '%'+dni+'%'));
@@ -165,6 +168,18 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         filtro.add(Restrictions.eq("idproducto", id));
         filtro.add(Restrictions.eq("estado", true));
         return productomedidaDao.buscarPorCriteriaSinProyecciones(filtro);
+    }
+
+    private String[] obtenerAdmins() {
+        Criterio filtro;
+        filtro = Criterio.forClass(Usuario.class);
+        filtro.add(Restrictions.eq("tipousuario.id", 1));
+        List<Usuario> admins = usuarioDao.buscarPorCriteriaSinProyecciones(filtro);
+        String[] adminArray = new String[admins.size()];
+        for (int i = 0; i < admins.size(); i++) {
+            adminArray[i] = admins.get(i).getUserId();
+        }
+        return adminArray;
     }
     
 }
