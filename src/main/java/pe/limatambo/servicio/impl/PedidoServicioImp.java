@@ -107,7 +107,7 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
             filtro.add(Restrictions.eq("id", idPedido));
         }
         if (tipoUsuario!= null && tipoUsuario>1) {
-            String[] admins = obtenerAdmins();
+            String[] admins = obtenerAdmins(usuario);
             filtro.add(Restrictions.in("usuariosave", admins));
         }
         if (dni!= null) {
@@ -170,15 +170,17 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         return productomedidaDao.buscarPorCriteriaSinProyecciones(filtro);
     }
 
-    private String[] obtenerAdmins() {
+    private String[] obtenerAdmins(String usuario) {
         Criterio filtro;
         filtro = Criterio.forClass(Usuario.class);
         filtro.add(Restrictions.eq("tipousuario.id", 1));
         List<Usuario> admins = usuarioDao.buscarPorCriteriaSinProyecciones(filtro);
-        String[] adminArray = new String[admins.size()];
+        int tam = admins.size();
+        String[] adminArray = new String[tam+1];
         for (int i = 0; i < admins.size(); i++) {
             adminArray[i] = admins.get(i).getUserId();
         }
+        adminArray[tam]=usuario;
         return adminArray;
     }
     
