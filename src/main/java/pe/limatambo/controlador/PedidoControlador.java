@@ -127,18 +127,11 @@ public class PedidoControlador {
         Respuesta resp = new Respuesta();
         try {
             int id = LimatamboUtil.obtenerFiltroComoInteger(parametros, "id");
-            Pedido pedido = pedidoServicio.obtener(id);
-            pedido.setFechaentrega(new Date());
-            pedidoServicio.guardar(pedido);
-            if (pedido.getId() != null ) {
-                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
-                resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
-                resp.setExtraInfo(pedido.getId());
-                return new ResponseEntity<>(resp, HttpStatus.OK);
-            }
-            else{
-                throw new GeneralException(Mensaje.NO_EXISTEN_DATOS, Mensaje.NO_EXISTEN_DATOS, loggerControlador);
-            }
+            pedidoServicio.terminarVenta(id);
+            resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+            resp.setOperacionMensaje(Mensaje.OPERACION_CORRECTA);
+            resp.setExtraInfo(id);
+            return new ResponseEntity<>(resp, HttpStatus.OK);
         } catch (Exception e) {
             throw e;
         }

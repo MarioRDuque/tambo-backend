@@ -5,7 +5,6 @@
  */
 package pe.limatambo.servicio.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -94,6 +93,15 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
         String hql = "UPDATE Detallepedido SET estado=FALSE WHERE id=:id";
             Query query = sessionFactory.getCurrentSession().createQuery(hql);
             query.setParameter("id", id);
+            query.executeUpdate();
+    }
+
+    @Override
+    public void terminarVenta(int id) throws GeneralException{
+        String hql = "UPDATE Pedido SET fechaentrega=:fecha WHERE id=:id";
+            Query query = sessionFactory.getCurrentSession().createQuery(hql);
+            query.setParameter("id", id);
+            query.setParameter("fecha", new Date());
             query.executeUpdate();
     }
     

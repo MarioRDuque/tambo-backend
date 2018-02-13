@@ -22,4 +22,5 @@ public interface PedidoServicio extends GenericoServicio<Pedido, Integer>{
     Pedido guardar(Pedido entidad);
     public Pedido obtener(Integer id);
     public void actualizarEstadoDetalle(Integer id) throws GeneralException;
+    public void terminarVenta(int id) throws GeneralException;
 }
