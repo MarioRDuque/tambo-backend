@@ -5,8 +5,10 @@
  */
 package pe.limatambo.servicio.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -61,6 +63,7 @@ public class PedidoServicioImp extends GenericoServicioImpl<Pedido, Integer> imp
     public Pedido guardar(Pedido pedido) {
         if(pedido != null) {
             pedido.setEstado(Boolean.TRUE);
+            TimeZone.setDefault(TimeZone.getTimeZone("America/Lima"));
             pedido.setFechapedido(new Date());
             pedido = pedidoDao.insertar(pedido);
             for (Detallepedido detalle : pedido.getDetallePedidoList()) {
